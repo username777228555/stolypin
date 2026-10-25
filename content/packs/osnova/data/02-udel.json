@@ -6547,7 +6547,7 @@
     {
       "from": "e-osnovanie-nizhnego-novgoroda-1221",
       "to": "e-prisoedinenie-nizhnego-novgoroda",
-      "type": "cause",
+      "type": "related",
       "label": "город стал центром княжества, присоединённого к Москве"
     },
     {
