@@ -11,7 +11,7 @@
   import { initWidgets, syncWidgets } from '$lib/modules/widgets/native';
   import { loadUserDecks } from '$lib/core/content/userdecks.svelte';
   import { initPlatform, setHapticsEnabled } from '$lib/core/platform';
-  import { checkForUpdate } from '$lib/core/update.svelte';
+  import { initUpdateChecks } from '$lib/core/update.svelte';
   import { initAutoBackup, restoreFromGoogle } from '$lib/core/autobackup';
   import TabBar from '$lib/app/TabBar.svelte';
   import SheetHost from '$lib/app/SheetHost.svelte';
@@ -38,7 +38,7 @@
       booted = true;
       void initPlatform(() => router.handleHardwareBack());
       void navigator.storage?.persist?.();
-      void checkForUpdate();
+      initUpdateChecks();
       void initReminders();
       initWidgets();
       initAutoBackup();

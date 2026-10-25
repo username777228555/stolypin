@@ -14,7 +14,7 @@ export interface Settings {
   haptics: boolean;
   dailyGoal: number;
   newPerDay: number;
-  /** Once a day ask GitHub whether a newer APK is out (core/update.svelte.ts). */
+  /** Twice a day ask GitHub whether a newer APK is out (core/update.svelte.ts). */
   checkUpdates: boolean;
   name: string;
   onboarded: boolean;

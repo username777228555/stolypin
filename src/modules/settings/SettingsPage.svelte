@@ -236,7 +236,7 @@
     </Card>
     <Card padding="md">
       <div class="stack inner">
-        <label class="line"><span class="grow">Сообщать о новой версии<small>раз в день спрашивает GitHub, есть ли свежий APK</small></span><Toggle bind:checked={settings.checkUpdates} label="Сообщать о новой версии" /></label>
+        <label class="line"><span class="grow">Сообщать о новой версии<small>два раза в день спрашивает GitHub, есть ли свежий APK</small></span><Toggle bind:checked={settings.checkUpdates} label="Сообщать о новой версии" /></label>
         <p class="muted small">Прогресс хранится на этом устройстве. Делайте резервную копию, чтобы перенести его на другой телефон. Файлы книг в копию не входят.</p>
         <Button variant="secondary" full icon={Download} onclick={doExport}>Сохранить резервную копию</Button>
         <Button variant="secondary" full icon={Upload} onclick={doImport}>Восстановить из копии</Button>

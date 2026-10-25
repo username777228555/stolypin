@@ -1,10 +1,10 @@
 /**
- * «Вышла новая версия»: once a day on app start (APK only, when online and allowed in settings) asks GitHub for
- * the app's releases and remembers the newest `vX.Y.Z` above the running version. HomePage shows a banner with a
+ * «Вышла новая версия»: twice a day — at app start and when the user comes back to it (APK only, when online and
+ * allowed in settings) — asks GitHub for the app's releases and remembers the newest `vX.Y.Z` above the running version. HomePage shows a banner with a
  * link to the APK; Android itself asks to confirm the install. Nothing is sent except this one request
  * (with the device's GitHub token, if the repository is private).
  *
- *   void checkForUpdate();      // App.svelte, after boot
+ *   initUpdateChecks();         // App.svelte, after boot: now and on every return to the app, at most every 12 hours
  *   update.available            // { version, url } | null — what the banner shows
  *   dismissUpdate()             // «Позже»: hide this version until a newer one comes out
  */
@@ -20,7 +20,8 @@ export interface AppUpdate {
 }
 
 const STATE_KEY = 'update-check';
-const DAY = 24 * 60 * 60 * 1000;
+/** Android keeps the app in memory for days, so the check also runs on return from the background. */
+const INTERVAL = 12 * 60 * 60 * 1000;
 interface Saved {
   at: number;
   found: AppUpdate | null;
@@ -49,7 +50,7 @@ export async function checkForUpdate(): Promise<void> {
   if (!isNative || !settings.checkUpdates) return;
   const saved = await kvGet<Saved>(STATE_KEY, { at: 0, found: null });
   show(saved);
-  if (Date.now() - saved.at < DAY || !navigator.onLine) return;
+  if (Date.now() - saved.at < INTERVAL || !navigator.onLine) return;
   try {
     const { token } = await loadSource();
     const r = await fetch(`https://api.github.com/repos/${APP_REPO}/releases?per_page=20`, {
@@ -66,8 +67,15 @@ export async function checkForUpdate(): Promise<void> {
     await kvSet(STATE_KEY, next);
     show(next);
   } catch {
-    /* offline or GitHub is unreachable: try tomorrow */
+    /* offline or GitHub is unreachable: try on the next start or return */
   }
+}
+
+export function initUpdateChecks(): void {
+  void checkForUpdate();
+  document.addEventListener('visibilitychange', () => {
+    if (!document.hidden) void checkForUpdate();
+  });
 }
 
 export async function dismissUpdate(): Promise<void> {
