@@ -3230,7 +3230,14 @@
       "persons": [
         "p-aleksandr-i"
       ],
-      "wiki": "Санкт-Петербургский государственный университет"
+      "wiki": "Санкт-Петербургский государственный университет",
+      "image": "images/events/e-peterburgskiy-universitet-1819.webp",
+      "imageInfo": {
+        "date": "2019",
+        "about": "Здание Двенадцати коллегий (университет) на Васильевском острове в Санкт-Петербурге",
+        "license": "FAL",
+        "source": "https://commons.wikimedia.org/wiki/File:Spb_Vasilievsky_Island_Twelve_Collegiums_asv2019-09.jpg"
+      }
     },
     {
       "id": "e-tekhnologicheskiy-institut-1828",
@@ -3245,7 +3252,14 @@
       "persons": [
         "p-nikolay-i"
       ],
-      "wiki": "Санкт-Петербургский государственный технологический институт"
+      "wiki": "Санкт-Петербургский государственный технологический институт",
+      "image": "images/events/e-tekhnologicheskiy-institut-1828.webp",
+      "imageInfo": {
+        "date": "Снято: 21 июля 2017",
+        "about": "Санкт-петербургский государственный технологический институт",
+        "license": "CC BY-SA 4.0",
+        "source": "https://commons.wikimedia.org/wiki/File:State_Institute_of_Technology_SPB_(img1).jpg"
+      }
     },
     {
       "id": "e-kievskiy-universitet-1834",
@@ -3260,7 +3274,15 @@
       "persons": [
         "p-nikolay-i"
       ],
-      "wiki": "Киевский университет"
+      "wiki": "Киевский университет",
+      "image": "images/events/e-kievskiy-universitet-1834.webp",
+      "imageInfo": {
+        "title": "Київський національний університет імені Тараса Шевченка",
+        "author": "Неизвестный автор",
+        "about": "Київський національний університет імені Тараса Шевченка",
+        "license": "Общественное достояние",
+        "source": "https://commons.wikimedia.org/wiki/File:%D0%9A%D0%B8%D1%97%D0%B2%D1%81%D1%8C%D0%BA%D0%B8%D0%B9_%D0%BD%D0%B0%D1%86%D1%96%D0%BE%D0%BD%D0%B0%D0%BB%D1%8C%D0%BD%D0%B8%D0%B9_%D1%83%D0%BD%D1%96%D0%B2%D0%B5%D1%80%D1%81%D0%B8%D1%82%D0%B5%D1%82_%D1%96%D0%BC%D0%B5%D0%BD%D1%96_%D0%A2%D0%B0%D1%80%D0%B0%D1%81%D0%B0_%D0%A8%D0%B5%D0%B2%D1%87%D0%B5%D0%BD%D0%BA%D0%B0.png"
+      }
     },
     {
       "id": "e-uchilishche-pravovedeniya-1835",
@@ -3277,7 +3299,14 @@
         "p-pobedonostsev",
         "p-chaykovskiy"
       ],
-      "wiki": "Императорское училище правоведения"
+      "wiki": "Императорское училище правоведения",
+      "image": "images/events/e-uchilishche-pravovedeniya-1835.webp",
+      "imageInfo": {
+        "author": "Неизвестный автор",
+        "about": "Санкт-Петербург. Императорское училище правоведения",
+        "license": "Общественное достояние",
+        "source": "https://commons.wikimedia.org/wiki/File:Liteinaia_chast_SPb_000000523_1_m.jpg"
+      }
     },
     {
       "id": "e-bestuzhevskie-kursy-1878",
@@ -3289,7 +3318,16 @@
       ],
       "importance": 1,
       "summary": "В 1878 году в Петербурге открылись Высшие женские курсы, по имени первого директора, историка К. Н. Бестужева-Рюмина, прозванные Бестужевскими, — фактически первый женский университет России. Женщины получили доступ к высшему образованию, хотя дипломы курсов долго не давали прав университетских.",
-      "wiki": "Бестужевские курсы"
+      "wiki": "Бестужевские курсы",
+      "image": "images/events/e-bestuzhevskie-kursy-1878.webp",
+      "imageInfo": {
+        "title": "10-я линия, 33 01",
+        "author": "Екатерина Борисова",
+        "date": "2017",
+        "about": "Флигель: 10-я линия Васильевского острова, 33, Василеостровский район, Санкт-Петербург",
+        "license": "CC BY-SA 4.0",
+        "source": "https://commons.wikimedia.org/wiki/File:10-%D1%8F_%D0%BB%D0%B8%D0%BD%D0%B8%D1%8F,_33_01.jpg"
+      }
     },
     {
       "id": "e-tomskiy-universitet-1878",
@@ -3304,7 +3342,15 @@
       "persons": [
         "p-aleksandr-ii"
       ],
-      "wiki": "Томский государственный университет"
+      "wiki": "Томский государственный университет",
+      "image": "images/events/e-tomskiy-universitet-1878.webp",
+      "imageInfo": {
+        "title": "Главный корпус ТГУ",
+        "date": "2007",
+        "about": "Главный корпус ТГУ",
+        "license": "CC BY-SA 3.0",
+        "source": "https://commons.wikimedia.org/wiki/File:%D0%93%D0%BB%D0%B0%D0%B2%D0%BD%D1%8B%D0%B9_%D0%BA%D0%BE%D1%80%D0%BF%D1%83%D1%81_%D0%A2%D0%93%D0%A3.jpg"
+      }
     }
   ],
   "persons": [
