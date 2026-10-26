@@ -1252,6 +1252,25 @@
         "t-ustavnaya-gramota"
       ],
       "importance": 1
+    },
+    {
+      "id": "t-faleristika",
+      "term": "Фалеристика",
+      "definition": "Вспомогательная историческая дисциплина об орденах, медалях и других знаках отличия: их истории, статутах, кавалерах. Название — от латинского phalerae, металлических нагрудных бляхах римских воинов. Помогает датировать портреты и фотографии и узнавать изображённых по наградам. Первый русский орден — Святого Андрея Первозванного (1698), первый советский — Красного Знамени (1918).",
+      "periods": [
+        "c18",
+        "c19",
+        "interwar",
+        "war"
+      ],
+      "related": [
+        "t-vspomogatelnye-istoricheskie-distsipliny",
+        "c-orden-andreya-pervozvannogo",
+        "c-orden-svyatogo-georgiya",
+        "c-orden-krasnogo-znameni",
+        "c-orden-pobeda"
+      ],
+      "importance": 2
     }
   ],
   "links": [
