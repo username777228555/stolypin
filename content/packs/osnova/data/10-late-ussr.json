@@ -2382,7 +2382,7 @@
       "image": "images/events/e-kubinskaya-revolyutsiya-1959.webp",
       "imageInfo": {
         "date": "1961",
-        "about": "Иллюстрация к событию «Кубинская революция и сближение Кубы с СССР»",
+        "about": "Фидель Кастро и Эрнесто Че Гевара, 1961 год",
         "license": "Общественное достояние",
         "source": "https://commons.wikimedia.org/wiki/File:CheyFidel.jpg"
       }
@@ -2412,7 +2412,7 @@
       "imageInfo": {
         "author": "Неизвестный автор",
         "date": "1976",
-        "about": "Иллюстрация к событию «Независимость Анголы и гражданская война»",
+        "about": "Бронетехника времён гражданской войны в Анголе, 1976 год",
         "license": "Общественное достояние",
         "source": "https://commons.wikimedia.org/wiki/File:Cuban_PT-76_Angola.JPG"
       }
@@ -2441,10 +2441,11 @@
       "image": "images/events/e-ogadenskaya-voyna.webp",
       "imageInfo": {
         "date": "2013",
-        "about": "Иллюстрация к событию «Огаденская война»",
+        "about": "Огаден — спорная область Эфиопии, населённая сомалийцами",
         "license": "CC BY-SA 3.0",
         "source": "https://commons.wikimedia.org/wiki/File:Ethio-Somali_War_Map_1977.png"
-      }
+      },
+      "imageQuiz": false
     }
   ],
   "persons": [

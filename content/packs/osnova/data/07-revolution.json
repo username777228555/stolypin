@@ -2409,10 +2409,41 @@
       "image": "images/events/e-osnovanie-romanova-na-murmane-1916.webp",
       "imageInfo": {
         "date": "2010",
-        "about": "Иллюстрация к событию «Основание Романова-на-Мурмане»",
+        "about": "Мурманск (бывший Романов-на-Мурмане) в наши дни",
         "license": "CC BY-SA 3.0",
         "source": "https://commons.wikimedia.org/wiki/File:Murmansk_from_Omni_Hotel_Murmansk_2.jpg"
-      }
+      },
+      "imageQuiz": false
+    },
+    {
+      "id": "e-kievskiy-politekhnicheskiy-1898",
+      "title": "Основание Киевского политехнического института",
+      "year": 1898,
+      "period": "revolution",
+      "tags": [
+        "culture"
+      ],
+      "importance": 1,
+      "summary": "Один из крупнейших технических вузов империи, открытый в 1898 году при поддержке министра финансов С. Ю. Витте для подготовки инженеров растущей промышленности. На олимпиадах встречается как «ловушка» для поиска анахронизмов: студент этого института не мог упоминаться в документе раньше 1898 года.",
+      "persons": [
+        "p-vitte"
+      ],
+      "wiki": "Киевский политехнический институт"
+    },
+    {
+      "id": "e-peterburgskiy-politekhnicheskiy-1899",
+      "title": "Основание Петербургского политехнического института",
+      "year": 1899,
+      "period": "revolution",
+      "tags": [
+        "culture"
+      ],
+      "importance": 1,
+      "summary": "Институт основан в 1899 году по инициативе С. Ю. Витте и открыт в 1902 году в ведении Министерства финансов. Готовил инженеров и экономистов, в нём был первый в России экономический факультет.",
+      "persons": [
+        "p-vitte"
+      ],
+      "wiki": "Санкт-Петербургский политехнический университет Петра Великого"
     }
   ],
   "persons": [
@@ -7294,13 +7325,6 @@
         "одна из первых историй революции, созданная её участником"
       ],
       "importance": 1,
-      "imageQuiz": false,
-      "image": "images/culture/c-istoriya-vtoroy-russkoy-revolyutsii.webp",
-      "imageInfo": {
-        "about": "Изображение: «История второй русской революции» П. Н. Милюкова",
-        "license": "Общественное достояние",
-        "source": "https://commons.wikimedia.org/wiki/File:Pavel_Milyukov_2.jpg"
-      },
       "wiki": "Милюков, Павел Николаевич"
     },
     {

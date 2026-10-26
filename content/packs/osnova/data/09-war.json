@@ -4698,7 +4698,8 @@
         "about": "Орден Отечественной войны (СССР)",
         "license": "Общественное достояние",
         "source": "https://commons.wikimedia.org/wiki/File:Order_of_the_Patriotic_War_(1st_class).png"
-      }
+      },
+      "imageQuiz": false
     },
     {
       "id": "c-orden-slavy",
@@ -4720,7 +4721,8 @@
         "about": "Орден Славы первой степени (СССР)",
         "license": "Общественное достояние",
         "source": "https://commons.wikimedia.org/wiki/File:OrderOfGlory1stClass.png"
-      }
+      },
+      "imageQuiz": false
     }
   ],
   "terms": [
