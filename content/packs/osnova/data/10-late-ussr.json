@@ -2053,7 +2053,7 @@
       "image": "images/events/e-tbilisskie-sobytiya-1989.webp",
       "imageInfo": {
         "date": "2008",
-        "about": "Иллюстрация к событию «Тбилисские события».",
+        "about": "Иллюстрация к событию «Тбилисские события»",
         "license": "Общественное достояние",
         "source": "https://commons.wikimedia.org/wiki/File:April9victims.jpg"
       }
@@ -2209,7 +2209,7 @@
       "image": "images/events/e-suetskiy-krizis-1956.webp",
       "imageInfo": {
         "date": "1956",
-        "about": "Подбитые танки на Синайском полуострове, 1956 год.",
+        "about": "Подбитые танки на Синайском полуострове, 1956 год",
         "license": "Общественное достояние",
         "source": "https://commons.wikimedia.org/wiki/File:Tanks_Destroyed_Sinai.jpg"
       }
@@ -2236,7 +2236,7 @@
       "wiki": "Асуанская плотина",
       "image": "images/events/e-asuanskaya-plotina.webp",
       "imageInfo": {
-        "about": "Асуанская высотная плотина на Ниле и водохранилище, вид сверху.",
+        "about": "Асуанская высотная плотина на Ниле и водохранилище, вид сверху",
         "license": "Общественное достояние",
         "source": "https://commons.wikimedia.org/wiki/File:BarragemAssu%C3%A3o.jpg"
       }
@@ -2352,7 +2352,7 @@
       "image": "images/events/e-voyna-vo-vetname.webp",
       "imageInfo": {
         "date": "1966",
-        "about": "Фотографии войны во Вьетнаме: бои, вертолёты армии США, сожжённая деревня.",
+        "about": "Фотографии войны во Вьетнаме: бои, вертолёты армии США, сожжённая деревня",
         "license": "Общественное достояние",
         "source": "https://commons.wikimedia.org/wiki/File:VietnamMural.jpg"
       }
@@ -2378,7 +2378,14 @@
         "p-mikoyan",
         "p-khrushchev"
       ],
-      "wiki": "Кубинская революция"
+      "wiki": "Кубинская революция",
+      "image": "images/events/e-kubinskaya-revolyutsiya-1959.webp",
+      "imageInfo": {
+        "date": "1961",
+        "about": "Иллюстрация к событию «Кубинская революция и сближение Кубы с СССР»",
+        "license": "Общественное достояние",
+        "source": "https://commons.wikimedia.org/wiki/File:CheyFidel.jpg"
+      }
     },
     {
       "id": "e-grazhdanskaya-voyna-v-angole",
@@ -2400,7 +2407,15 @@
         "p-brezhnev",
         "p-kastro"
       ],
-      "wiki": "Гражданская война в Анголе"
+      "wiki": "Гражданская война в Анголе",
+      "image": "images/events/e-grazhdanskaya-voyna-v-angole.webp",
+      "imageInfo": {
+        "author": "Неизвестный автор",
+        "date": "1976",
+        "about": "Иллюстрация к событию «Независимость Анголы и гражданская война»",
+        "license": "Общественное достояние",
+        "source": "https://commons.wikimedia.org/wiki/File:Cuban_PT-76_Angola.JPG"
+      }
     },
     {
       "id": "e-ogadenskaya-voyna",
@@ -2422,7 +2437,14 @@
         "p-brezhnev",
         "p-kastro"
       ],
-      "wiki": "Эфиопо-сомалийская война"
+      "wiki": "Эфиопо-сомалийская война",
+      "image": "images/events/e-ogadenskaya-voyna.webp",
+      "imageInfo": {
+        "date": "2013",
+        "about": "Иллюстрация к событию «Огаденская война»",
+        "license": "CC BY-SA 3.0",
+        "source": "https://commons.wikimedia.org/wiki/File:Ethio-Somali_War_Map_1977.png"
+      }
     }
   ],
   "persons": [
@@ -4610,7 +4632,15 @@
       ],
       "importance": 2,
       "summary": "Вождь партизанского «Движения 26 июля», свергнувшего 1 января 1959 года режим Батисты. Премьер-министр, затем председатель Государственного совета Кубы. В 1961 году объявил революцию социалистической и сделал Кубу союзником СССР в Западном полушарии; размещение там советских ракет привело к Карибскому кризису 1962 года. В 1970-х годах посылал кубинские войска в Анголу и Эфиопию.",
-      "wiki": "Кастро, Фидель"
+      "wiki": "Кастро, Фидель",
+      "image": "images/persons/p-kastro.webp",
+      "imageInfo": {
+        "author": "Неизвестный автор",
+        "date": "1959",
+        "about": "Изображение: Фидель Кастро",
+        "license": "Общественное достояние",
+        "source": "https://commons.wikimedia.org/wiki/File:Fidel_Castro_1950s.jpg"
+      }
     }
   ],
   "culture": [

@@ -446,7 +446,7 @@
       "imageInfo": {
         "author": "Замысловский, Егор Егорович (1841-1896)",
         "date": "1869",
-        "about": "Иллюстрация к событию «Столбовский мир со Швецией».",
+        "about": "Иллюстрация к событию «Столбовский мир со Швецией»",
         "license": "Общественное достояние",
         "source": "https://commons.wikimedia.org/wiki/File:%D0%A0%D0%BE%D1%81%D1%81%D0%B8%D1%8F_%D0%B2_XVII_%D0%B2%D0%B5%D0%BA%D0%B5.jpg"
       },
@@ -501,7 +501,7 @@
       "details": "Смоленская война или Русско-польская война 1632—1634 годов — война между Русским царством и Речью Посполитой, связанная со стремлением России вернуть Смоленск и прилежащие территории, вошедшие в состав Речи Посполитой по результатам войны 1609—1618 годов. Война велась за воз­врат Смо­лен­ских и Чер­ни­го­во-Се­вер­ских зе­мель, обеспечение выхода к Балтийскому и Чёрному морям, а также достижение безопасности южных границ от набегов крымского хана.",
       "imageInfo": {
         "author": "Неизвестный автор",
-        "about": "Иллюстрация к событию «Смоленская война».",
+        "about": "Иллюстрация к событию «Смоленская война»",
         "license": "Общественное достояние",
         "source": "https://commons.wikimedia.org/wiki/File:Shturm_Smolenska_1633.JPG"
       },
@@ -940,7 +940,7 @@
         "title": "Крымские походы Голицына",
         "author": "Устрялов Николай Герасимович (1805–1870)",
         "date": "1858",
-        "about": "Иллюстрация к событию «Крымские походы Голицына».",
+        "about": "Иллюстрация к событию «Крымские походы Голицына»",
         "license": "Общественное достояние",
         "source": "https://commons.wikimedia.org/wiki/File:%D0%9A%D1%80%D1%8B%D0%BC%D1%81%D0%BA%D0%B8%D0%B5_%D0%BF%D0%BE%D1%85%D0%BE%D0%B4%D1%8B_%D0%93%D0%BE%D0%BB%D0%B8%D1%86%D1%8B%D0%BD%D0%B0.jpg"
       },
@@ -1261,7 +1261,7 @@
       "imageInfo": {
         "author": "Николай Сергеевич Голицын",
         "date": "1877",
-        "about": "Иллюстрация к событию «Бахчисарайский мир с Османской империей».",
+        "about": "Иллюстрация к событию «Бахчисарайский мир с Османской империей»",
         "license": "Общественное достояние",
         "source": "https://commons.wikimedia.org/wiki/File:%D0%9A%D0%B0%D1%80%D1%82%D0%B0_%D0%9C%D0%B0%D0%BB%D0%BE%D1%80%D0%BE%D1%81%D1%81%D0%B8%D0%B8_%D0%B8_%D0%A3%D0%BA%D1%80%D0%B0%D0%B9%D0%BD%D1%8B_%D0%B2_XVII_%D0%B2%D0%B5%D0%BA%D0%B5.jpg"
       }
@@ -1781,7 +1781,15 @@
       ],
       "importance": 1,
       "summary": "Казаки Семёна Шелковникова в 1647 году поставили зимовье в устье реки Охоты — первое русское поселение на берегу Тихого океана. Охотск стал главным портом на Тихом океане до середины XIX века: отсюда уходили суда на Камчатку и в Русскую Америку.",
-      "wiki": "Охотск"
+      "wiki": "Охотск",
+      "image": "images/events/e-osnovanie-okhotska-1647.webp",
+      "imageInfo": {
+        "author": "Романвер",
+        "date": "2017",
+        "about": "Центральная площадь Охотска",
+        "license": "CC BY-SA 4.0",
+        "source": "https://commons.wikimedia.org/wiki/File:Lenin_in_Okhotsk.jpg"
+      }
     },
     {
       "id": "e-osnovanie-anadyrskogo-ostroga-1649",
@@ -1796,7 +1804,16 @@
       "persons": [
         "p-dezhnev"
       ],
-      "wiki": "Анадырский острог"
+      "wiki": "Анадырский острог",
+      "image": "images/events/e-osnovanie-anadyrskogo-ostroga-1649.webp",
+      "imageInfo": {
+        "title": "Карта Ивана Львова",
+        "author": "Иван Львов",
+        "date": "ок. 1710 года",
+        "about": "«Карта, изображающая Анадырский острог и Анадырское море». Выполнена якутским дворянином Иваном Львовым, служившим в Анадырском остроге с 1710 по 1714 год. Карта ориентирована севером книзу",
+        "license": "Общественное достояние",
+        "source": "https://commons.wikimedia.org/wiki/File:%D0%9A%D0%B0%D1%80%D1%82%D0%B0_%D0%98%D0%B2%D0%B0%D0%BD%D0%B0_%D0%9B%D1%8C%D0%B2%D0%BE%D0%B2%D0%B0.jpg"
+      }
     },
     {
       "id": "e-osnovanie-nerchinska",
@@ -1809,7 +1826,15 @@
       ],
       "importance": 1,
       "summary": "Нерчинский острог поставили в 1650-х годах казаки енисейского сотника П. Бекетова у впадения Нерчи в Шилку. Нерчинск стал центром Забайкалья; здесь в 1689 году заключён Нерчинский договор с Китаем, позднее — центр каторги.",
-      "wiki": "Нерчинск"
+      "wiki": "Нерчинск",
+      "image": "images/events/e-osnovanie-nerchinska.webp",
+      "imageInfo": {
+        "title": "Бутинский дворец",
+        "date": "2020",
+        "about": "Городская усадьба М.Д. Бутина: Советская улица, 83 / улица Достовалова, 7 / улица Погодаева, 60, Нерчинск, Нерчинский район, Забайкальский край",
+        "license": "CC BY-SA 4.0",
+        "source": "https://commons.wikimedia.org/wiki/File:%D0%91%D1%83%D1%82%D0%B8%D0%BD%D1%81%D0%BA%D0%B8%D0%B9_%D0%B4%D0%B2%D0%BE%D1%80%D0%B5%D1%86.jpg"
+      }
     }
   ],
   "persons": [
@@ -2345,7 +2370,7 @@
       ],
       "imageInfo": {
         "author": "Неизвестный автор",
-        "about": "Изображение: Аввакум.",
+        "about": "Изображение: Аввакум",
         "license": "Общественное достояние",
         "source": "https://commons.wikimedia.org/wiki/File:Protopop_Avvakym.jpg"
       },
@@ -3115,7 +3140,7 @@
       "image": "images/persons/p-poyarkov.webp",
       "imageInfo": {
         "author": "Банк России",
-        "about": "Изображение: Василий Поярков.",
+        "about": "Изображение: Василий Поярков",
         "license": "Общественное достояние",
         "source": "https://commons.wikimedia.org/wiki/File:RR5216-0032R_%D0%9E%D1%81%D0%B2%D0%BE%D0%B5%D0%BD%D0%B8%D0%B5_%D0%B8_%D0%B8%D1%81%D1%81%D0%BB%D0%B5%D0%B4%D0%BE%D0%B2%D0%B0%D0%BD%D0%B8%D0%B5_%D0%A1%D0%B8%D0%B1%D0%B8%D1%80%D0%B8,_XVI-XVII_%D0%B2%D0%B2..gif"
       }
@@ -3562,7 +3587,7 @@
       "wiki": "Наталья Кирилловна",
       "image": "images/persons/p-natalya-naryshkina.webp",
       "imageInfo": {
-        "about": "Изображение: Наталья Нарышкина.",
+        "about": "Изображение: Наталья Нарышкина",
         "license": "Общественное достояние",
         "source": "https://commons.wikimedia.org/wiki/File:Natalia_Naryshkina_by_anonymous_(17-18_c.,_Yaroslavl_museum).jpg"
       }
@@ -3883,7 +3908,7 @@
       "imageInfo": {
         "title": "Иннокентий (Гизель)",
         "author": "Неизвестный автор",
-        "about": "Изображение: «Синопсис» Иннокентия Гизеля.",
+        "about": "Изображение: «Синопсис» Иннокентия Гизеля",
         "license": "Общественное достояние",
         "source": "https://commons.wikimedia.org/wiki/File:%D0%98%D0%BD%D0%BD%D0%BE%D0%BA%D0%B5%D0%BD%D1%82%D0%B8%D0%B9_(%D0%93%D0%B8%D0%B7%D0%B5%D0%BB%D1%8C).jpg"
       },
@@ -3971,7 +3996,7 @@
       "image": "images/culture/c-slavyano-greko-latinskaya-akademiya.webp",
       "imageInfo": {
         "date": "2014",
-        "about": "Изображение: Славяно-греко-латинская академия.",
+        "about": "Изображение: Славяно-греко-латинская академия",
         "license": "CC BY-SA 3.0",
         "source": "https://commons.wikimedia.org/wiki/File:Moscow_Nikolskaya7-9str3_F10.jpg"
       },
@@ -4114,7 +4139,7 @@
       "imageInfo": {
         "title": "Книга Большому Чертежу",
         "date": "2012",
-        "about": "Изображение: «Книга Большому чертежу».",
+        "about": "Изображение: «Книга Большому чертежу»",
         "license": "CC BY-SA 3.0",
         "source": "https://commons.wikimedia.org/wiki/File:%D0%9A%D0%BD%D0%B8%D0%B3%D0%B0_%D0%91%D0%BE%D0%BB%D1%8C%D1%88%D0%BE%D0%BC%D1%83_%D0%A7%D0%B5%D1%80%D1%82%D0%B5%D0%B6%D1%83.png"
       }

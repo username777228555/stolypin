@@ -168,7 +168,7 @@
       ],
       "image": "images/events/e-oborona-kieva.webp",
       "imageInfo": {
-        "about": "Иллюстрация к событию «Оборона Киева».",
+        "about": "Иллюстрация к событию «Оборона Киева»",
         "license": "CC BY-SA 3.0 de",
         "source": "https://commons.wikimedia.org/wiki/File:Bundesarchiv_Bild_183-B12190,_Kiew,_Brand_in_der_Hauptstra%C3%9Fe.jpg"
       },
@@ -877,7 +877,7 @@
       ],
       "image": "images/events/e-berlinskaya-operatsiya.webp",
       "imageInfo": {
-        "about": "Иллюстрация к событию «Берлинская операция».",
+        "about": "Иллюстрация к событию «Берлинская операция»",
         "license": "CC BY-SA 3.0 de",
         "source": "https://commons.wikimedia.org/wiki/File:Bundesarchiv_B_145_Bild-P054320,_Berlin,_Brandenburger_Tor_und_Pariser_Platz.jpg"
       },
@@ -1639,7 +1639,7 @@
       "imageInfo": {
         "title": "Освобожденных оставшихся в живых узников концлагеря Освенцим выводят из лагеря",
         "author": "Игнатович, Ольга Всеволодовна",
-        "about": "Иллюстрация к событию «Освобождение Освенцима».",
+        "about": "Иллюстрация к событию «Освобождение Освенцима»",
         "license": "Общественное достояние",
         "source": "https://commons.wikimedia.org/wiki/File:%D0%9E%D1%81%D0%B2%D0%BE%D0%B1%D0%BE%D0%B6%D0%B4%D0%B5%D0%BD%D0%BD%D1%8B%D1%85_%D0%BE%D1%81%D1%82%D0%B0%D0%B2%D1%88%D0%B8%D1%85%D1%81%D1%8F_%D0%B2_%D0%B6%D0%B8%D0%B2%D1%8B%D1%85_%D1%83%D0%B7%D0%BD%D0%B8%D0%BA%D0%BE%D0%B2_%D0%BA%D0%BE%D0%BD%D1%86%D0%BB%D0%B0%D0%B3%D0%B5%D1%80%D1%8F_%D0%9E%D1%81%D0%B2%D0%B5%D0%BD%D1%86%D0%B8%D0%BC_%D0%B2%D1%8B%D0%B2%D0%BE%D0%B4%D1%8F%D1%82_%D0%B8%D0%B7_%D0%BB%D0%B0%D0%B3%D0%B5%D1%80%D1%8F.jpeg"
       },
@@ -2582,7 +2582,7 @@
       ],
       "imageInfo": {
         "date": "30 декабря 1941",
-        "about": "Изображение: Уинстон Черчилль.",
+        "about": "Изображение: Уинстон Черчилль",
         "license": "Общественное достояние",
         "source": "https://commons.wikimedia.org/wiki/File:Sir_Winston_Churchill_-_19086236948.jpg"
       },
@@ -2811,7 +2811,7 @@
       ],
       "image": "images/persons/p-fridrikh-paulyus.webp",
       "imageInfo": {
-        "about": "Изображение: Фридрих Паулюс.",
+        "about": "Изображение: Фридрих Паулюс",
         "license": "CC BY-SA 3.0 de",
         "source": "https://commons.wikimedia.org/wiki/File:Bundesarchiv_Bild_183-B24575,_Friedrich_Paulus.jpg"
       },
@@ -3697,7 +3697,7 @@
       "image": "images/persons/p-fedorov-aleksey-partizan.webp",
       "imageInfo": {
         "date": "2009",
-        "about": "Изображение: Алексей Фёдоров.",
+        "about": "Изображение: Алексей Фёдоров",
         "license": "CC BY 3.0",
         "source": "https://commons.wikimedia.org/wiki/File:Alexei_Fedorovich_Fedorov_26dec09_3489.JPG"
       }
@@ -3982,7 +3982,7 @@
       "imageInfo": {
         "author": "Неизвестный автор",
         "date": "1938",
-        "about": "Изображение: Манштейн.",
+        "about": "Изображение: Манштейн",
         "license": "CC BY-SA 3.0 de",
         "source": "https://commons.wikimedia.org/wiki/File:Bundesarchiv_Bild_183-H01758,_Erich_v._Manstein.jpg"
       }
@@ -4014,7 +4014,7 @@
       "imageInfo": {
         "author": "Неизвестный автор",
         "date": "1942",
-        "about": "Изображение: Кейтель.",
+        "about": "Изображение: Кейтель",
         "license": "CC BY-SA 3.0 de",
         "source": "https://commons.wikimedia.org/wiki/File:Bundesarchiv_Bild_183-H30220,_Wilhelm_Keitel.jpg"
       }
@@ -4692,7 +4692,13 @@
         "юбилейное награждение ветеранов в 1985 году"
       ],
       "importance": 2,
-      "wiki": "Орден Отечественной войны"
+      "wiki": "Орден Отечественной войны",
+      "image": "images/culture/c-orden-otechestvennoy-voyny.webp",
+      "imageInfo": {
+        "about": "Орден Отечественной войны (СССР)",
+        "license": "Общественное достояние",
+        "source": "https://commons.wikimedia.org/wiki/File:Order_of_the_Patriotic_War_(1st_class).png"
+      }
     },
     {
       "id": "c-orden-slavy",
@@ -4707,7 +4713,14 @@
         "учреждён вместе с орденом «Победа»"
       ],
       "importance": 2,
-      "wiki": "Орден Славы"
+      "wiki": "Орден Славы",
+      "image": "images/culture/c-orden-slavy.webp",
+      "imageInfo": {
+        "author": "Неизвестный автор",
+        "about": "Орден Славы первой степени (СССР)",
+        "license": "Общественное достояние",
+        "source": "https://commons.wikimedia.org/wiki/File:OrderOfGlory1stClass.png"
+      }
     }
   ],
   "terms": [

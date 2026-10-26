@@ -826,7 +826,7 @@
       "imageInfo": {
         "title": "Живописный Карамзин 106",
         "date": "1836",
-        "about": "Иллюстрация к событию «Оборона Пскова от Стефана Батория».",
+        "about": "Иллюстрация к событию «Оборона Пскова от Стефана Батория»",
         "license": "Общественное достояние",
         "source": "https://commons.wikimedia.org/wiki/File:%D0%96%D0%B8%D0%B2%D0%BE%D0%BF%D0%B8%D1%81%D0%BD%D1%8B%D0%B9_%D0%9A%D0%B0%D1%80%D0%B0%D0%BC%D0%B7%D0%B8%D0%BD_106.jpg"
       },
@@ -1259,7 +1259,7 @@
       "imageInfo": {
         "author": "Замысловский, Егор Егорович (1841-1896)",
         "date": "1887",
-        "about": "Иллюстрация к событию «Тявзинский мир со Швецией».",
+        "about": "Иллюстрация к событию «Тявзинский мир со Швецией»",
         "license": "Общественное достояние",
         "source": "https://commons.wikimedia.org/wiki/File:%D0%9A%D0%B0%D1%80%D1%82%D0%B0_%D0%A0%D0%BE%D1%81%D1%81%D0%B8%D0%B8_%D0%B2_%D0%BD%D0%B0%D1%87%D0%B0%D0%BB%D0%B5_XVII_%D0%B2%D0%B5%D0%BA%D0%B0.jpg"
       }
@@ -1355,7 +1355,7 @@
       "imageInfo": {
         "author": "Сигизмунд фон Герберштейн",
         "date": "1517",
-        "about": "Иллюстрация к событию «Посольство Герберштейна в Москву».",
+        "about": "Иллюстрация к событию «Посольство Герберштейна в Москву»",
         "license": "Общественное достояние",
         "source": "https://commons.wikimedia.org/wiki/File:Sigismund_von_Herberstein_in_russian_dress1.jpg"
       }
@@ -1428,7 +1428,7 @@
       "image": "images/events/e-bolezn-ivana-iv-1553.webp",
       "imageInfo": {
         "author": "Неизвестный автор",
-        "about": "Иллюстрация к событию «Болезнь Ивана IV и спор о присяге младенцу Дмитрию».",
+        "about": "Иллюстрация к событию «Болезнь Ивана IV и спор о присяге младенцу Дмитрию»",
         "license": "Общественное достояние",
         "source": "https://commons.wikimedia.org/wiki/File:Ivan_grozny_frame.jpg"
       }
@@ -1523,7 +1523,7 @@
       "image": "images/events/e-smert-ivana-iv-1584.webp",
       "imageInfo": {
         "author": "Неизвестный автор",
-        "about": "Иллюстрация к событию «Смерть Ивана Грозного и воцарение Фёдора Ивановича».",
+        "about": "Иллюстрация к событию «Смерть Ивана Грозного и воцарение Фёдора Ивановича»",
         "license": "Общественное достояние",
         "source": "https://commons.wikimedia.org/wiki/File:Ivan_grozny_frame.jpg"
       }
@@ -1848,7 +1848,14 @@
       "persons": [
         "p-ivan-iii"
       ],
-      "wiki": "Пустозерск"
+      "wiki": "Пустозерск",
+      "image": "images/events/e-osnovanie-pustozerska-1499.webp",
+      "imageInfo": {
+        "date": "1886",
+        "about": "Иллюстрация к событию «Основание Пустозерска»",
+        "license": "Общественное достояние",
+        "source": "https://commons.wikimedia.org/wiki/File:VATolvinsky-Pustozersk-1886.jpg"
+      }
     },
     {
       "id": "e-osnovanie-ufy-1574",
@@ -1863,7 +1870,16 @@
       "persons": [
         "p-ivan-iv"
       ],
-      "wiki": "Уфа"
+      "wiki": "Уфа",
+      "image": "images/events/e-osnovanie-ufy-1574.webp",
+      "imageInfo": {
+        "title": "Дом жилой Нагарева, Уфа",
+        "author": "Неизвестный автор",
+        "date": "2018",
+        "about": "Дом жилой Нагарева, Уфа",
+        "license": "CC BY 4.0",
+        "source": "https://commons.wikimedia.org/wiki/File:%D0%94%D0%BE%D0%BC_%D0%B6%D0%B8%D0%BB%D0%BE%D0%B9_%D0%9D%D0%B0%D0%B3%D0%B0%D1%80%D0%B5%D0%B2%D0%B0,_%D0%A3%D1%84%D0%B0.jpg"
+      }
     },
     {
       "id": "e-osnovanie-samary-1586",
@@ -1879,7 +1895,15 @@
         "p-zasekin",
         "p-fedor-ioannovich"
       ],
-      "wiki": "Самара"
+      "wiki": "Самара",
+      "image": "images/events/e-osnovanie-samary-1586.webp",
+      "imageInfo": {
+        "title": "Монумент Славы Самара",
+        "date": "2025",
+        "about": "Иллюстрация к событию «Основание Самары»",
+        "license": "CC BY-SA 4.0",
+        "source": "https://commons.wikimedia.org/wiki/File:%D0%9C%D0%BE%D0%BD%D1%83%D0%BC%D0%B5%D0%BD%D1%82_%D0%A1%D0%BB%D0%B0%D0%B2%D1%8B_%D0%A1%D0%B0%D0%BC%D0%B0%D1%80%D0%B0.jpg"
+      }
     },
     {
       "id": "e-osnovanie-voronezha-1586",
@@ -1895,7 +1919,16 @@
         "p-fedor-ioannovich",
         "p-petr-i"
       ],
-      "wiki": "Воронеж"
+      "wiki": "Воронеж",
+      "image": "images/events/e-osnovanie-voronezha-1586.webp",
+      "imageInfo": {
+        "title": "Петровский сквер-2",
+        "author": "Надежда Алистратова",
+        "date": "Снято: 18 октября 2014",
+        "about": "Петровский сквер, Воронеж",
+        "license": "CC BY-SA 4.0",
+        "source": "https://commons.wikimedia.org/wiki/File:%D0%9F%D0%B5%D1%82%D1%80%D0%BE%D0%B2%D1%81%D0%BA%D0%B8%D0%B9_%D1%81%D0%BA%D0%B2%D0%B5%D1%80-2.JPG"
+      }
     },
     {
       "id": "e-osnovanie-saratova-1590",
@@ -1911,7 +1944,15 @@
         "p-zasekin",
         "p-fedor-ioannovich"
       ],
-      "wiki": "Саратов"
+      "wiki": "Саратов",
+      "image": "images/events/e-osnovanie-saratova-1590.webp",
+      "imageInfo": {
+        "title": "Консерватория 2022",
+        "date": "2022",
+        "about": "Здание консерватории (Императорская Алексеевская консерватория): проспект Кирова, 1-3 / улица Радищева, 29-31, Саратов, Саратовская область",
+        "license": "CC BY-SA 4.0",
+        "source": "https://commons.wikimedia.org/wiki/File:%D0%9A%D0%BE%D0%BD%D1%81%D0%B5%D1%80%D0%B2%D0%B0%D1%82%D0%BE%D1%80%D0%B8%D1%8F_2022.jpg"
+      }
     }
   ],
   "persons": [
@@ -2261,7 +2302,7 @@
       "image": "images/persons/p-elena-glinskaya.webp",
       "imageInfo": {
         "date": "1999",
-        "about": "Изображение: Елена Глинская.",
+        "about": "Изображение: Елена Глинская",
         "license": "CC BY-SA 3.0",
         "source": "https://commons.wikimedia.org/wiki/File:Glinskaya_reconstruction_02.JPG"
       },
@@ -2312,7 +2353,7 @@
       ],
       "imageInfo": {
         "author": "Неизвестный автор",
-        "about": "Изображение: Иван Грозный.",
+        "about": "Изображение: Иван Грозный",
         "license": "Общественное достояние",
         "source": "https://commons.wikimedia.org/wiki/File:Ivan_grozny_frame.jpg"
       },
@@ -2607,7 +2648,7 @@
       ],
       "imageInfo": {
         "author": "Солнцев, Фёдор Григорьевич",
-        "about": "Изображение: Фёдор Иоаннович.",
+        "about": "Изображение: Фёдор Иоаннович",
         "license": "Общественное достояние",
         "source": "https://commons.wikimedia.org/wiki/File:Drevnosti_RG_v4_ill004.jpg"
       },
@@ -3029,7 +3070,7 @@
       "imageInfo": {
         "author": "Сигизмунд фон Герберштейн",
         "date": "1517",
-        "about": "Изображение: Сигизмунд Герберштейн.",
+        "about": "Изображение: Сигизмунд Герберштейн",
         "license": "Общественное достояние",
         "source": "https://commons.wikimedia.org/wiki/File:Sigismund_von_Herberstein_in_russian_dress1.jpg"
       }
@@ -3521,7 +3562,7 @@
       "image": "images/persons/p-ivan-shuyskiy-pskov.webp",
       "imageInfo": {
         "author": "Солнцев, Фёдор Григорьевич",
-        "about": "Изображение: Иван Шуйский.",
+        "about": "Изображение: Иван Шуйский",
         "license": "Общественное достояние",
         "source": "https://commons.wikimedia.org/wiki/File:Drevnosti_RG_v4_ill004.jpg"
       }

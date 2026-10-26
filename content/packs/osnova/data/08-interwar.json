@@ -87,7 +87,7 @@
       "imageInfo": {
         "author": "Неизвестный автор",
         "date": "Снято: 7 февраля 1924",
-        "about": "Иллюстрация к событию ««Полоса признаний» СССР».",
+        "about": "Иллюстрация к событию ««Полоса признаний» СССР»",
         "license": "CC BY-SA 3.0 de",
         "source": "https://commons.wikimedia.org/wiki/File:Bundesarchiv_Bild_102-00270,_Rom,_Italienisch-russischer_Vertrag.jpg"
       },
@@ -731,7 +731,7 @@
       "image": "images/events/e-pakt-molotova-ribbentropa.webp",
       "imageInfo": {
         "date": "Снято: 23 августа 1939",
-        "about": "Иллюстрация к событию «Пакт Молотова — Риббентропа».",
+        "about": "Иллюстрация к событию «Пакт Молотова — Риббентропа»",
         "license": "CC BY-SA 3.0 de",
         "source": "https://commons.wikimedia.org/wiki/File:Bundesarchiv_Bild_183-H27337,_Moskau,_Stalin_und_Ribbentrop_im_Kreml.jpg"
       },
@@ -874,7 +874,7 @@
       "wiki": "Рапалльский договор (1922)",
       "image": "images/events/e-rapallskiy-dogovor.webp",
       "imageInfo": {
-        "about": "Иллюстрация к событию «Рапалльский договор».",
+        "about": "Иллюстрация к событию «Рапалльский договор»",
         "license": "CC BY-SA 3.0 de",
         "source": "https://commons.wikimedia.org/wiki/File:Bundesarchiv_Bild_183-R14433,_Vertrag_von_Rapallo.jpg"
       }
@@ -1785,7 +1785,7 @@
       "image": "images/events/e-myunkhenskoe-soglashenie.webp",
       "imageInfo": {
         "author": "Неизвестный автор",
-        "about": "Иллюстрация к событию «Мюнхенское соглашение».",
+        "about": "Иллюстрация к событию «Мюнхенское соглашение»",
         "license": "CC BY-SA 3.0 de",
         "source": "https://commons.wikimedia.org/wiki/File:Bundesarchiv_Bild_183-R69173,_M%C3%BCnchener_Abkommen,_Staatschefs.jpg"
       }
@@ -1900,7 +1900,15 @@
       ],
       "importance": 1,
       "summary": "В мае 1932 года на месте села Пермское высадились комсомольцы-добровольцы, прибывшие строить на Амуре судостроительный завод; позднее сюда массово направляли заключённых. Город стал символом комсомольских строек первых пятилеток.",
-      "wiki": "Комсомольск-на-Амуре"
+      "wiki": "Комсомольск-на-Амуре",
+      "image": "images/events/e-osnovanie-komsomolska-na-amure-1932.webp",
+      "imageInfo": {
+        "title": "Комсомольск-на-Амуре Дом со шпилем",
+        "date": "2008",
+        "about": "Комсомольск-на-Амуре, «Дом со шпилем» (здание по ул. Ленина, 21)",
+        "license": "CC BY-SA 3.0",
+        "source": "https://commons.wikimedia.org/wiki/File:%D0%9A%D0%BE%D0%BC%D1%81%D0%BE%D0%BC%D0%BE%D0%BB%D1%8C%D1%81%D0%BA-%D0%BD%D0%B0-%D0%90%D0%BC%D1%83%D1%80%D0%B5_%D0%94%D0%BE%D0%BC_%D1%81%D0%BE_%D1%88%D0%BF%D0%B8%D0%BB%D0%B5%D0%BC.jpg"
+      }
     }
   ],
   "persons": [
@@ -2279,7 +2287,7 @@
       "imageInfo": {
         "title": "Киров Сергей Миронович (фото М. Калашникова)",
         "author": "Михаил Михайлович Калашников",
-        "about": "Изображение: Киров.",
+        "about": "Изображение: Киров",
         "license": "Общественное достояние",
         "source": "https://commons.wikimedia.org/wiki/File:%D0%9A%D0%B8%D1%80%D0%BE%D0%B2_%D0%A1%D0%B5%D1%80%D0%B3%D0%B5%D0%B9_%D0%9C%D0%B8%D1%80%D0%BE%D0%BD%D0%BE%D0%B2%D0%B8%D1%87_(%D1%84%D0%BE%D1%82%D0%BE_%D0%9C._%D0%9A%D0%B0%D0%BB%D0%B0%D1%88%D0%BD%D0%B8%D0%BA%D0%BE%D0%B2%D0%B0).jpg"
       },
@@ -2577,7 +2585,7 @@
       "imageInfo": {
         "author": "Неизвестный автор",
         "date": "1927",
-        "about": "Изображение: Горький.",
+        "about": "Изображение: Горький",
         "license": "Общественное достояние",
         "source": "https://commons.wikimedia.org/wiki/File:Maxim_Gorky_1927_(cropped).png"
       },
@@ -4069,7 +4077,7 @@
       "image": "images/persons/p-ribbentrop.webp",
       "imageInfo": {
         "author": "Неизвестный автор",
-        "about": "Изображение: Риббентроп.",
+        "about": "Изображение: Риббентроп",
         "license": "Общественное достояние",
         "source": "https://commons.wikimedia.org/wiki/File:Bundesarchiv_Bild_183-H04810,_Joachim_von_Ribbentrop.jpg"
       }
@@ -5181,7 +5189,14 @@
         "вручался вместе с геройскими званиями"
       ],
       "importance": 2,
-      "wiki": "Орден Ленина"
+      "wiki": "Орден Ленина",
+      "image": "images/culture/c-orden-lenina.webp",
+      "imageInfo": {
+        "date": "2011",
+        "about": "Изображение: Орден Ленина",
+        "license": "Общественное достояние",
+        "source": "https://commons.wikimedia.org/wiki/File:Order_of_Lenin_badge_with_ribbon.png"
+      }
     }
   ],
   "terms": [
