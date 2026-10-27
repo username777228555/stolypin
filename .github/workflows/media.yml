@@ -3,6 +3,7 @@ name: Media (Wikimedia images)
 # Downloads illustrations for content packs from Wikimedia Commons (with author, date and licence),
 # crops portraits around faces and commits the images back to the branch. Run it manually or push a commit
 # with «[media]» in its message to main or a gumball/** / media/** branch. Script: scripts/media/wiki_images.py.
+# «[gubernii]» in the message (or task=gubernii) fetches only the 1856 governorate cards: scripts/media/gubernii_1856.py.
 on:
   workflow_dispatch:
     inputs:
@@ -21,7 +22,7 @@ concurrency:
 
 jobs:
   images:
-    if: github.event_name == 'workflow_dispatch' || contains(github.event.head_commit.message, '[media]')
+    if: github.event_name == 'workflow_dispatch' || contains(github.event.head_commit.message, '[media]') || contains(github.event.head_commit.message, '[gubernii]')
     runs-on: ubuntu-24.04
     steps:
       - uses: actions/checkout@v4
@@ -34,15 +35,15 @@ jobs:
         run: pip install requests pillow opencv-python-headless
 
       - name: Fetch images from Wikimedia Commons
-        if: inputs.task != 'gubernii'
+        if: ${{ !(inputs.task == 'gubernii' || contains(github.event.head_commit.message, '[gubernii]')) }}
         run: python3 scripts/media/wiki_images.py fetch
 
       - name: Governorate card set 1856 («Губернии 1856»)
-        if: inputs.task == 'gubernii'
+        if: (inputs.task == 'gubernii' || contains(github.event.head_commit.message, '[gubernii]'))
         run: python3 scripts/media/gubernii_1856.py
 
       - name: Apply to content and clean up
-        if: inputs.task != 'gubernii'
+        if: ${{ !(inputs.task == 'gubernii' || contains(github.event.head_commit.message, '[gubernii]')) }}
         run: |
           python3 scripts/media/wiki_images.py apply
           python3 scripts/media/wiki_images.py gc
