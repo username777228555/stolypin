@@ -5,6 +5,10 @@ name: Media (Wikimedia images)
 # with «[media]» in its message to main or a gumball/** / media/** branch. Script: scripts/media/wiki_images.py.
 on:
   workflow_dispatch:
+    inputs:
+      task:
+        description: 'images — illustrations for all content; gubernii — only the 1856 governorate card set'
+        default: images
   push:
     branches: [main, 'gumball/**', 'media/**']
 
@@ -30,9 +34,15 @@ jobs:
         run: pip install requests pillow opencv-python-headless
 
       - name: Fetch images from Wikimedia Commons
+        if: inputs.task != 'gubernii'
         run: python3 scripts/media/wiki_images.py fetch
 
+      - name: Governorate card set 1856 («Губернии 1856»)
+        if: inputs.task == 'gubernii'
+        run: python3 scripts/media/gubernii_1856.py
+
       - name: Apply to content and clean up
+        if: inputs.task != 'gubernii'
         run: |
           python3 scripts/media/wiki_images.py apply
           python3 scripts/media/wiki_images.py gc
