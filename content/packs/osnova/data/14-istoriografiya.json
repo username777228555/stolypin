@@ -973,25 +973,7 @@
       "related": [
         "p-pokrovskiy",
         "p-stalin",
-        "t-kratkiy-kurs-vkpb"
-      ],
-      "importance": 2
-    },
-    {
-      "id": "t-kratkiy-kurs-vkpb",
-      "term": "«Краткий курс истории ВКП(б)»",
-      "aliases": [
-        "Краткий курс"
-      ],
-      "definition": "Учебник по истории партии, изданный в 1938 году под редакцией комиссии ЦК при участии И. В. Сталина (философский раздел написан им лично). Стал основой официальной картины истории СССР: его оценки индустриализации, коллективизации и внутрипартийной борьбы были обязательными для историков до середины 1950-х годов.",
-      "periods": [
-        "interwar"
-      ],
-      "related": [
-        "p-stalin",
-        "t-industrializatsiya",
-        "t-kollektivizatsiya",
-        "t-kult-lichnosti"
+        "c-kratkiy-kurs-istorii-vkp-b"
       ],
       "importance": 2
     },
