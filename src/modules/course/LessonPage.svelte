@@ -4,7 +4,8 @@
    * each closed by a comprehension question → «Вспомните урок» (write it down from memory with the text hidden,
    * then check against the lesson's points, RecallStep) → historians' views and the summary → «Даты урока»
    * (DatesPage) → «Проверка» (the lesson's quiz, src=lesson). A due review starts with the recall again.
-   * Links `[[id]]` open the entity sheet; answers go to the knowledge map. The pass is kept (lessonSession):
+   * Links `[[id]]` open the entity sheet; under each section — pictures of the works it mentions (LessonFigures).
+   * Answers go to the knowledge map. The pass is kept (lessonSession):
    * leaving for «Даты урока» or a card and coming back restores the answers, the sections opened and the step.
    */
   import { onMount, tick } from 'svelte';
@@ -31,6 +32,7 @@
   import { lessonDates } from './dates';
   import type { RecallAttempt } from './recall';
   import { lessonHtml } from './text';
+  import LessonFigures from './LessonFigures.svelte';
 
   const lesson = kb.lessons.find((l) => l.id === router.params.id);
   const period = lesson ? kb.periodById.get(lesson.period) : undefined;
@@ -114,9 +116,12 @@
     document.getElementById(`sec-${shown - 1}`)?.scrollIntoView({ behavior: 'smooth', block: 'start' });
   }
 
+  function openEntity(id: string) {
+    if (lesson) openSheet({ component: EntityPreview, props: { id, from: lesson.title } });
+  }
   function openRef(ev: MouseEvent) {
     const id = (ev.target as HTMLElement).closest<HTMLElement>('[data-ref]')?.dataset.ref;
-    if (id && lesson) openSheet({ component: EntityPreview, props: { id, from: lesson.title } });
+    if (id) openEntity(id);
   }
   const check = () => lesson && navigate(`/quiz/run?src=lesson&id=${lesson.id}`);
 </script>
@@ -172,6 +177,7 @@
               <section class="sec reread" in:fly={{ y: 10, duration: 200 }}>
                 <h2 class="h"><span class="num n">{reread}</span>{sec.title}</h2>
                 <div class="text">{@html lessonHtml(sec.text)}</div>
+                <LessonFigures section={sec} onopen={openEntity} />
               </section>
             {/if}
           {/if}
@@ -193,6 +199,7 @@
           <section class="sec" id="sec-{i}" in:fly={{ y: 14, duration: 260 }}>
             <h2 class="h"><span class="num n">{i + 1}</span>{sec.title}</h2>
             <div class="text">{@html lessonHtml(sec.text)}</div>
+            <LessonFigures section={sec} onopen={openEntity} />
             {#each sec.check ?? [] as q, k (k)}
               <div class="check">
                 <span class="eyebrow">Проверьте себя</span>

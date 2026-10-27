@@ -353,6 +353,7 @@ export function validateContent(periods: Period[], packs: PackInput[], opts: Val
         l.sections.forEach((sec, j) => {
           const sp = `${at}.sections[${j}]`;
           sec.check?.forEach((q, k) => checkQuestion(`${sp}.check[${k}]`, q));
+          sec.figures?.forEach((id, k) => ref(`${sp}.figures[${k}]`, id));
           checkLatin(file, `${sp}.text`, sec.text);
           // [[id]] links must exist; a year written right after a linked event must be its year («[[e-x|битва]] (1242)»).
           for (const m of sec.text.matchAll(/\[\[([a-z0-9-]+)(?:\|[^\]]+)?\]\](?:\s*\(|\s+в\s+)?(\d{3,4})?/g)) {
