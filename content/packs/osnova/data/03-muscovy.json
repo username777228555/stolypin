@@ -3925,7 +3925,14 @@
       ],
       "importance": 3,
       "confidence": "medium",
-      "wiki": "Храм Василия Блаженного"
+      "wiki": "Храм Василия Блаженного",
+      "image": "images/culture/c-pokrovskiy-sobor.webp",
+      "imageInfo": {
+        "date": "2015",
+        "about": "Покровский собор на рву (собор Василия Блаженного): Красная площадь, б/н, Тверской, Центральный округ, Москва",
+        "license": "CC BY-SA 4.0",
+        "source": "https://commons.wikimedia.org/wiki/File:Saint_Basil%27s_Cathedral_in_Moscow.jpg"
+      }
     },
     {
       "id": "c-freski-ferapontova",

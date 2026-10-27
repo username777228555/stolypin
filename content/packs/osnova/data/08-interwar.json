@@ -4417,7 +4417,14 @@
         "символ сталинского стиля и «заботы о народе»"
       ],
       "importance": 2,
-      "wiki": "Комсомольская (станция метро, Кольцевая линия)"
+      "wiki": "Комсомольская (станция метро, Кольцевая линия)",
+      "image": "images/culture/c-moskovskoe-metro.webp",
+      "imageInfo": {
+        "date": "2018",
+        "about": "Станция метро Комсомольская (кольцевая) в Москве",
+        "license": "FAL",
+        "source": "https://commons.wikimedia.org/wiki/File:MosMetro_KomsomolskayaKL_img2_asv2018-01.jpg"
+      }
     },
     {
       "id": "c-tikhiy-don",
