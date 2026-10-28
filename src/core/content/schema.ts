@@ -183,6 +183,8 @@ export const PersonSchema = z.strictObject({
   hints: z.array(Text).optional(),
   image: Asset.optional(),
   imageInfo: ImageInfoSchema.optional(),
+  /** false — not a portrait, or the picture names the person (stamp, document, signed miniature): not asked «Кто изображён?». */
+  imageQuiz: z.boolean().optional(),
   confidence: Confidence.optional(),
   /** Название статьи русской Википедии (для scripts/media/wiki_images.py; в приложении не показывается). */
   wiki: OptText,
@@ -273,6 +275,8 @@ const qBase = {
   prompt: Text,
   excerpt: OptText,
   image: Asset.optional(),
+  /** Id of a base card (event, person, work of culture): its picture is shown with the question. */
+  figure: Id.optional(),
   explain: OptText,
   points: z.number().int().positive().optional(),
 };

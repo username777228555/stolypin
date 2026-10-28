@@ -1828,6 +1828,7 @@
         "license": "Общественное достояние",
         "source": "https://commons.wikimedia.org/wiki/File:Rurik_-_from_Titulyarnik_(1672).jpg"
       },
+      "imageQuiz": false,
       "wiki": "Рюрик"
     },
     {
@@ -1960,6 +1961,7 @@
         "license": "Общественное достояние",
         "source": "https://commons.wikimedia.org/wiki/File:Olga_illustration_from_1869_book.jpg"
       },
+      "imageQuiz": false,
       "wiki": "Ольга (княгиня киевская)"
     },
     {
@@ -2302,6 +2304,7 @@
         "license": "Общественное достояние",
         "source": "https://commons.wikimedia.org/wiki/File:Vsevolod_yaroslavich.jpg"
       },
+      "imageQuiz": false,
       "wiki": "Всеволод Ярославич"
     },
     {
@@ -2789,7 +2792,8 @@
         "about": "Одна из древнейших икон, изображающая Св. Бориса и Глеба. Найдена в Новгороде, но скорее всего написана в Твери в начале 1300-х",
         "license": "Общественное достояние",
         "source": "https://commons.wikimedia.org/wiki/File:BorisGleb.jpg"
-      }
+      },
+      "imageQuiz": false
     },
     {
       "id": "p-gleb-vladimirovich",
@@ -2849,7 +2853,8 @@
         "about": "Фреска из Собора Святой Софии в Киеве, представляющея дочерей Ярослава Мудрого",
         "license": "Общественное достояние",
         "source": "https://commons.wikimedia.org/wiki/File:C%C3%B3rki_Jaros%C5%82awa.jpeg"
-      }
+      },
+      "imageQuiz": false
     },
     {
       "id": "p-oleg-svyatoslavich",
@@ -2884,7 +2889,8 @@
         "about": "Изображение: Олег Святославич",
         "license": "CC BY-SA 4.0",
         "source": "https://commons.wikimedia.org/wiki/File:%D0%98%D0%B7%D0%BE%D0%B1%D1%80%D0%B0%D0%B6%D0%B5%D0%BD%D0%B8%D0%B5_%D0%BA%D0%BD%D1%8F%D0%B7%D1%8F_%D0%9E%D0%BB%D0%B5%D0%B3%D0%B0_%D0%A1%D0%B2%D1%8F%D1%82%D0%BE%D1%81%D0%BB%D0%B0%D0%B2%D0%B8%D1%87%D0%B0_%D0%92%D0%BE%D0%BB%D1%8B%D0%BD%D1%81%D0%BA%D0%BE%D0%B3%D0%BE_%D0%BD%D0%B0_%D0%BC%D0%BE%D0%BD%D0%B5%D1%82%D0%B5.jpg"
-      }
+      },
+      "imageQuiz": false
     },
     {
       "id": "p-vasilko-rostislavich",
@@ -3219,7 +3225,8 @@
         "about": "Добрыня Никитич. 1895. Иллюстрация к книге \"Русские былинные богатыри\"",
         "license": "Общественное достояние",
         "source": "https://commons.wikimedia.org/wiki/File:%D0%94%D0%BE%D0%B1%D1%80%D1%8B%D0%BD%D1%8F_%D0%9D%D0%B8%D0%BA%D0%B8%D1%82%D0%B8%D1%87.jpg"
-      }
+      },
+      "imageQuiz": false
     },
     {
       "id": "p-kirill-filosof",
@@ -3252,7 +3259,8 @@
         "about": "Св. Кирилл и Климент. Фреска. Храм Св. Софии. Охрид Около. 1045 г",
         "license": "Общественное достояние",
         "source": "https://commons.wikimedia.org/wiki/File:Kiril_i_Kliment_od_Sveta_Sofija.jpg"
-      }
+      },
+      "imageQuiz": false
     },
     {
       "id": "p-mefodiy",
@@ -3284,7 +3292,8 @@
         "about": "Св. Кирилл и Климент. Фреска. Храм Св. Софии. Охрид Около. 1045 г",
         "license": "Общественное достояние",
         "source": "https://commons.wikimedia.org/wiki/File:Kiril_i_Kliment_od_Sveta_Sofija.jpg"
-      }
+      },
+      "imageQuiz": false
     },
     {
       "id": "p-anna-porfirorodnaya",
@@ -8750,6 +8759,7 @@
             {
               "type": "single",
               "prompt": "Что показала осада Киева печенегами в 968 году?",
+              "figure": "e-osada-kieva-pechenegami-968",
               "options": [
                 "Что печенеги стали союзниками Византии против Руси",
                 "Что киевляне хотели выбрать другого князя вместо Святослава",
@@ -11170,6 +11180,7 @@
             {
               "type": "single",
               "prompt": "Почему Киево-Печерский монастырь имел такое влияние на Руси?",
+              "figure": "c-kiyevo-pecherskiy-monastyr",
               "options": [
                 "Он стал нравственным авторитетом, центром книжности и школой епископов",
                 "Он владел почти всей землёй вокруг Киева и собирал дань даже с самих князей",
@@ -11812,6 +11823,7 @@
         {
           "type": "single",
           "prompt": "Чем закончились дунайские походы Святослава в 967–971 годах?",
+          "figure": "e-dunayskie-pohody-svyatoslava",
           "options": [
             "Поражением под Доростолом и договором 971 года об уходе с Дуная",
             "Присоединением Болгарии к Руси и переносом столицы на Дунай",

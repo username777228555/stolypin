@@ -99,6 +99,8 @@ export function validateContent(periods: Period[], packs: PackInput[], opts: Val
   const registry = new Map<string, Located>();
   /** Event years (from, to) for the year check of lesson texts. */
   const eventYears = new Map<string, [number, number]>();
+  /** Cards with a picture that does not give answers away: `figure` of a question must point to one of them. */
+  const pictured = new Set<string>();
   const validated: ValidatedPack[] = [];
 
   // 1. Schemas + id registry.
@@ -130,6 +132,7 @@ export function validateContent(periods: Period[], packs: PackInput[], opts: Val
         registry.set(id, { kind, pack: manifest.id, file: frag.file, path });
       };
       const d = r.data;
+      for (const x of [...(d.events ?? []), ...(d.persons ?? []), ...(d.culture ?? [])]) if (x.image && x.imageQuiz !== false) pictured.add(x.id);
       d.events?.forEach((x, i) => {
         register(x.id, 'event', `events[${i}]`);
         eventYears.set(x.id, [x.year, x.endYear ?? x.year]);
@@ -304,6 +307,10 @@ export function validateContent(periods: Period[], packs: PackInput[], opts: Val
       });
       const checkQuestion = (at: string, q: Question) => {
           checkAsset(file, `${at}.image`, q.image);
+          if (q.figure) {
+            ref(`${at}.figure`, q.figure, ['event', 'person', 'culture']);
+            if (registry.has(q.figure) && !pictured.has(q.figure)) add('warning', file, `${at}.figure`, `у «${q.figure}» нет картинки или она выдаёт ответ (imageQuiz: false)`);
+          }
           switch (q.type) {
             case 'single':
               if (q.answer >= q.options.length) add('error', file, `${at}.answer`, 'индекс ответа вне списка options');

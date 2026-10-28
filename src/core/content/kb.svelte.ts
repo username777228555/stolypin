@@ -342,6 +342,13 @@ class KnowledgeBase {
     return 'image' in e.item ? this.assetUrl(e.pack, e.item.image) : undefined;
   }
 
+  /** The picture of a question: its own (an olympiad's, already a data URL) or that of the card in `figure`. */
+  questionImage(q: { image?: string; figure?: string }): string | undefined {
+    if (q.image && /^(data:|https?:|blob:)/.test(q.image)) return q.image;
+    const e = q.figure ? this.get(q.figure) : undefined;
+    return e ? this.imageOf(e) : undefined;
+  }
+
   /** Author / date / description of the entity's picture (if the pack provides them). */
   imageInfoOf(e: Entity): ImageInfo | undefined {
     return 'imageInfo' in e.item ? e.item.imageInfo : undefined;

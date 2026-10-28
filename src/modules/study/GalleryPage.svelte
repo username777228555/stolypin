@@ -239,7 +239,7 @@
     {#key `${mode}-${qi}`}
       <div class="quiz" in:fly={{ y: 20, duration: 300 }}>
         <div class="qhead"><span class="eyebrow">{mode === 'author' ? 'Кто автор?' : 'Что изображено?'} · {qi + 1} из {rounds.length}</span><strong class="num qscore">{score}</strong></div>
-        <Painting src={round.pic.src} alt="" height="min(46dvh, 360px)" fit="contain" />
+        <Painting src={round.pic.src} alt="" height="min(64dvh, 620px)" fit="contain" />
         <div class="opts">
           {#each round.options as o, k (o)}
             {@const ok = picked && o === round.answer}

@@ -2729,6 +2729,7 @@
         "license": "Общественное достояние",
         "source": "https://commons.wikimedia.org/wiki/File:Vasily_Dmitrievich_titularnik.jpg"
       },
+      "imageQuiz": false,
       "wiki": "Василий I Дмитриевич"
     },
     {
@@ -3924,7 +3925,8 @@
         "about": "Писцы книг. Миниатюра из лицевого «Жития преподобного Сергия Радонежского» XVI в. из собрания Троице-Сергиевой Лавры (лист 4-й). Размер — 12,6 × 11,5 см. В настоящее время «Житие» хранится в Отделе рукописей РГБ. Епифаний Премудрый…",
         "license": "Общественное достояние",
         "source": "https://commons.wikimedia.org/wiki/File:Epiphanius_the_Wise.jpg"
-      }
+      },
+      "imageQuiz": false
     },
     {
       "id": "p-yuriy-zvenigorodskiy",
@@ -4083,7 +4085,8 @@
         "about": "Осип Семёнович Чириков. \"Св. Кирилл епископ Туровский\".. Икона месячной минеи. Государственный музей истории религии",
         "license": "Общественное достояние",
         "source": "https://commons.wikimedia.org/wiki/File:Cyril_of_Turov_by_O.Chirikov_(Muz.ist._rel).jpg"
-      }
+      },
+      "imageQuiz": false
     },
     {
       "id": "p-kliment-smolyatich",
@@ -4145,7 +4148,8 @@
         "about": "Рукопись \"Моления Даниила Заточника\". Список XVI века",
         "license": "Общественное достояние",
         "source": "https://commons.wikimedia.org/wiki/File:Praying_of_Daniel_the_Immured_01.png"
-      }
+      },
+      "imageQuiz": false
     },
     {
       "id": "p-yaroslav-osmomysl",
@@ -4553,7 +4557,8 @@
         "about": "В ту же весну ме- сяца мая начали расписывать великую соборную церковь Пречистой Богородицы Влади- мирской по повеле- нию великого князя Василия Дмитриевича, мастерами были Да- ниил Иконник и Ан- дрей Рублев",
         "license": "Общественное достояние",
         "source": "https://commons.wikimedia.org/wiki/File:Facial_Chronicle_-_b.12,_p.156.gif"
-      }
+      },
+      "imageQuiz": false
     }
   ],
   "culture": [
@@ -10885,6 +10890,7 @@
         {
           "type": "single",
           "prompt": "Какая летопись переписана в 1377 году монахом Лаврентием и содержит «Повесть временных лет»?",
+          "figure": "c-povest-vremennyh-let",
           "options": [
             "Ипатьевская летопись",
             "Лаврентьевская летопись",
@@ -11062,6 +11068,7 @@
             {
               "type": "single",
               "prompt": "Что показывает оборона Козельска?",
+              "figure": "e-oborona-kozelska",
               "options": [
                 "Даже небольшой город мог долго сопротивляться монголам",
                 "Монголы сдавали города без боя, если защитники были храбры",
@@ -11795,6 +11802,7 @@
         {
           "type": "single",
           "prompt": "Как вы думаете, где произошло Ледовое побоище 1242 года?",
+          "figure": "e-ledovoe-poboishche",
           "options": [
             "На льду Невы близ устья Ижоры",
             "На льду Чудского озера",

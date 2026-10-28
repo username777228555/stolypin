@@ -6,6 +6,9 @@
    * going on — the parent must then ignore its own swipe gestures (switching pictures).
    *
    *   <ZoomImage {src} alt={title} height="min(62dvh, 560px)" bind:busy />
+   *
+   * `fit`: the stage takes the picture's own proportions at full width, `height` is then only its limit —
+   * a wide map is not boxed into a tall frame with empty bands.
    */
   import { ZoomIn, ZoomOut } from '@lucide/svelte';
   import { motionOK } from '$lib/core/settings.svelte';
@@ -15,9 +18,12 @@
     alt?: string;
     /** CSS height of the stage. */
     height?: string;
+    fit?: boolean;
     busy?: boolean;
   }
-  let { src, alt = '', height = '60dvh', busy = $bindable(false) }: Props = $props();
+  let { src, alt = '', height = '60dvh', fit = false, busy = $bindable(false) }: Props = $props();
+  /** Width / height of the loaded picture (for `fit`). */
+  let ratio = $state<number | null>(null);
 
   const MAX = 5;
   const DOUBLE = 2.5;
@@ -35,6 +41,7 @@
 
   $effect(() => {
     void src;
+    ratio = null;
     scale = 1;
     tx = 0;
     ty = 0;
@@ -159,8 +166,10 @@
 
 <div
   class="stage"
+  class:fit
   bind:this={stage}
   style:--h={height}
+  style:--ar={ratio ?? 4 / 3}
   onpointerdown={down}
   onpointermove={move}
   onpointerup={up}
@@ -172,6 +181,7 @@
     {src}
     {alt}
     draggable="false"
+    onload={(e) => { const i = e.currentTarget as HTMLImageElement; if (i.naturalHeight) ratio = i.naturalWidth / i.naturalHeight; }}
     class:smooth
     class:zoomed={scale > 1}
     style:transform="translate({tx}px, {ty}px) scale({scale})"
@@ -191,6 +201,11 @@
     touch-action: none;
     user-select: none;
     -webkit-user-select: none;
+  }
+  .stage.fit {
+    height: auto;
+    aspect-ratio: var(--ar);
+    max-height: var(--h);
   }
   img {
     position: absolute;

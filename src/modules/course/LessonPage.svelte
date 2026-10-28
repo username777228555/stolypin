@@ -18,6 +18,7 @@
   import ProgressBar from '$lib/design/components/ProgressBar.svelte';
   import EmptyState from '$lib/design/components/EmptyState.svelte';
   import EntityPreview from '$lib/components/EntityPreview.svelte';
+  import QuestionImage from '$lib/components/questions/QuestionImage.svelte';
   import { QUESTION_COMPONENTS } from '$lib/components/questions/registry';
   import type { Question } from '$lib/core/content/schema';
   import { kb } from '$lib/core/content/kb.svelte';
@@ -129,8 +130,10 @@
 {#snippet ask(key: string, q: Question)}
   {@const QC = QUESTION_COMPONENTS[q.type]}
   {@const done = scores[key] !== undefined}
+  {@const img = kb.questionImage(q)}
   <div class="ask">
     <p class="ask-q">{q.prompt}</p>
+    {#if img}<QuestionImage src={img} />{/if}
     {#if q.excerpt}<blockquote>{q.excerpt}</blockquote>{/if}
     {#if done && restored.has(key)}
       <p class="was" class:ok={scores[key]! >= 0.999}>{scores[key]! >= 0.999 ? 'Вы ответили верно' : 'Вы ответили неверно — верный ответ отмечен'}</p>

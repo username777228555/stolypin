@@ -10,7 +10,7 @@
   import Badge from '$lib/design/components/Badge.svelte';
   import { QUESTION_COMPONENTS } from '$lib/components/questions/registry';
   import { QUESTION_TYPE_LABELS, type Question } from '$lib/core/content/schema';
-  import ZoomImage from '$lib/design/components/ZoomImage.svelte';
+  import QuestionImage from '$lib/components/questions/QuestionImage.svelte';
   import { buildQuiz, type QuizSpec } from './sources';
   import { noteAnswer } from './mistakes';
   import { lessonFinished } from '$lib/modules/course/progress';
@@ -56,6 +56,7 @@
   });
 
   const current = $derived(spec?.questions[index]);
+  const currentImage = $derived(current ? kb.questionImage(current) : undefined);
   const QC = $derived(current ? QUESTION_COMPONENTS[current.type] : null);
   const lastScore = $derived(scores[index] ?? 0);
   const correctCount = $derived(scores.filter((s) => s >= 0.999).length);
@@ -228,7 +229,7 @@
           {#if current.points && current.points > 1}<Badge tone="gold">{pluralN(current.points, ['балл', 'балла', 'баллов'])}</Badge>{/if}
         </div>
         <h2 class="prompt">{current.prompt}</h2>
-        {#if current.image && /^(data:|https?:)/.test(current.image)}<ZoomImage src={current.image} height="min(46dvh, 420px)" />{/if}
+        {#if currentImage}<QuestionImage src={currentImage} />{/if}
         {#if current.excerpt}<blockquote>{current.excerpt}</blockquote>{/if}
         <QC q={current} {revealed} onsubmit={submit} />
 

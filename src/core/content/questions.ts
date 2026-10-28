@@ -37,6 +37,11 @@ const imp = (x: { importance?: number }) => x.importance ?? 2;
 const q = (s: string) => (/^«.*»$/.test(s.trim()) ? s.trim() : `«${s.trim()}»`);
 const nameOf = (p: PersonItem) => p.short ?? p.name;
 const causesOf = (id: string) => kb.edges.filter((ed) => ed.type === 'cause' && ed.to === id).map((ed) => ed.from);
+/** The card's picture can go with a question: it has one, and the picture does not name the answer (`imageQuiz: false`). */
+const shows = (x: { image?: string; imageQuiz?: boolean }) => !!x.image && x.imageQuiz !== false;
+const fig = (x: { id: string; image?: string; imageQuiz?: boolean }) => (shows(x) ? { figure: x.id } : {});
+/** Works of culture told by sight (as in the «Галерея» quiz); books and music are not. */
+const SEEN_KINDS = new Set(['painting', 'icon', 'sculpture', 'architecture', 'applied']);
 
 /** «Почему?» — the causes of one event as an extended-answer question (null if the graph knows no cause of it). */
 export function whyQuestion(eventId: string): GeneratedQuestion | null {
@@ -215,7 +220,7 @@ const G: Record<string, Gen> = {
     return {
       type: 'single', prompt: `К какому веку относится памятник ${q(c.title)}?`, options: list.map((x) => `${toRoman(x)} век`),
       answer: list.indexOf(cen), explain: `${c.title} (${CULTURE_KIND_LABELS[c.kind].toLowerCase()}) — ${c.circa ? centuryLabel(c.year) : formatYear(c.year)}. ${c.summary}`,
-      entity: c.id, period: c.period,
+      entity: c.id, period: c.period, ...fig(c),
     };
   },
   cultureAuthor({ rng, periods }) {
@@ -234,7 +239,50 @@ const G: Record<string, Gen> = {
     const others = [...candidates].slice(0, 3);
     if (others.length < 3) return null;
     const opts = shuffle([author, ...others], rng);
-    return { type: 'single', prompt: `Кто автор (создатель) памятника ${q(c.title)}?`, options: opts, answer: opts.indexOf(author), explain: c.summary, entity: c.id, period: c.period };
+    return { type: 'single', prompt: `Кто автор (создатель) памятника ${q(c.title)}?`, options: opts, answer: opts.indexOf(author), explain: c.summary, entity: c.id, period: c.period, ...fig(c) };
+  },
+  // ——— По изображению (как на олимпиадах): памятник, событие, человек ———
+  pictureCulture({ rng, periods }) {
+    const c = pick(kb.culture.filter((x) => shows(x) && SEEN_KINDS.has(x.kind) && (!periods || periods.includes(x.period))), rng);
+    if (!c) return null;
+    // Distractors of the same kind and close in time: telling one church from another is the skill.
+    const near = [...new Set(kb.culture.filter((x) => x.kind === c.kind && x.title !== c.title)
+      .sort((a, b) => Math.abs(a.year - c.year) - Math.abs(b.year - c.year)).map((x) => x.title))].slice(0, 8);
+    if (near.length < 3) return null;
+    const options = shuffle([c.title, ...sample(near, 3, rng)], rng);
+    return {
+      type: 'single', prompt: 'Что изображено?', figure: c.id, options, answer: options.indexOf(c.title),
+      explain: `${c.title} (${CULTURE_KIND_LABELS[c.kind].toLowerCase()}, ${c.circa ? centuryLabel(c.year) : formatYear(c.year)}). ${c.summary}`,
+      entity: c.id, period: c.period,
+    };
+  },
+  pictureEvent({ rng, events }) {
+    const e = pick(events.filter((x) => shows(x) && x.scope !== 'world'), rng);
+    if (!e) return null;
+    // Not the same year and not linked to it (a battle of the same war): one picture, one answer.
+    const linked = new Set(kb.neighbors(e.id).map((n) => n.id));
+    const near = [...new Set(kb.events.filter((x) => x.scope !== 'world' && !linked.has(x.id) && Math.abs(x.year - e.year) >= 2 && qt(x) !== qt(e))
+      .sort((a, b) => Math.abs(a.year - e.year) - Math.abs(b.year - e.year)).map(qt))].slice(0, 10);
+    if (near.length < 3) return null;
+    const options = shuffle([qt(e), ...sample(near, 3, rng)], rng);
+    return {
+      type: 'single', prompt: 'С каким событием связано это изображение?', figure: e.id, options, answer: options.indexOf(qt(e)),
+      explain: `${formatEventDate(e)}. ${e.summary}`, entity: e.id, period: e.period,
+    };
+  },
+  picturePerson({ rng, persons }) {
+    // Portraits from the late XVII century on: older pictures (icons, miniatures, the «Титулярник») mostly write the name.
+    const p = pick(persons.filter((x) => shows(x) && (x.born ?? 0) >= 1640), rng);
+    if (!p?.born) return null;
+    // Distractors of the same occupation and generation: a general among generals, a writer among writers.
+    const near = [...new Set(kb.persons.filter((x) => x.born && nameOf(x) !== nameOf(p) && x.tags?.some((t) => p.tags?.includes(t)))
+      .sort((a, b) => Math.abs(a.born! - p.born!) - Math.abs(b.born! - p.born!)).map(nameOf))].slice(0, 10);
+    if (near.length < 3) return null;
+    const options = shuffle([nameOf(p), ...sample(near, 3, rng)], rng);
+    return {
+      type: 'single', prompt: 'Кто изображён?', figure: p.id, options, answer: options.indexOf(nameOf(p)),
+      explain: `${p.name} — ${p.role}. ${p.summary}`, entity: p.id, period: p.periods[0],
+    };
   },
   multiplePeriod({ rng, events, periods }) {
     const target = periods?.length ? pick(periods, rng) : pick(kb.periods, rng).id;
@@ -481,7 +529,7 @@ const SKILL_OF: Record<keyof typeof G, Skill> = {
   yearChoice: 'dates', yearInput: 'dates', earliest: 'dates', order: 'dates', matchYears: 'dates', multiplePeriod: 'dates', errors: 'dates',
   matchPersons: 'persons', whoByHints: 'persons', hints: 'persons', openPerson: 'persons',
   termChoice: 'terms', termText: 'terms',
-  cultureCentury: 'culture', cultureAuthor: 'culture',
+  cultureCentury: 'culture', cultureAuthor: 'culture', pictureCulture: 'culture', pictureEvent: 'culture', picturePerson: 'persons',
   openCauses: 'analysis', openResults: 'analysis',
   seriesEvent: 'persons', oddPerson: 'persons', oddTerm: 'terms',
   syncWorld: 'dates', syncReign: 'dates', syncOrder: 'dates', placeChoice: 'dates',
@@ -489,7 +537,7 @@ const SKILL_OF: Record<keyof typeof G, Skill> = {
 };
 
 const BY_TYPE: Record<QuestionType, (keyof typeof G)[]> = {
-  single: ['yearChoice', 'earliest', 'whoByHints', 'termChoice', 'cultureCentury', 'cultureAuthor', 'sourceWhich', 'sourceEvent', 'seriesEvent', 'oddPerson', 'oddTerm', 'syncWorld', 'syncReign', 'placeChoice'],
+  single: ['yearChoice', 'earliest', 'whoByHints', 'termChoice', 'cultureCentury', 'cultureAuthor', 'pictureCulture', 'pictureEvent', 'picturePerson', 'sourceWhich', 'sourceEvent', 'seriesEvent', 'oddPerson', 'oddTerm', 'syncWorld', 'syncReign', 'placeChoice'],
   multiple: ['multiplePeriod'],
   order: ['order', 'syncOrder'],
   match: ['matchYears', 'matchPersons'],
@@ -506,6 +554,7 @@ export const DRILLS = {
   series: { title: 'Ряды', description: 'Что объединяет ряд, кто или что в нём лишнее', gens: ['seriesEvent', 'oddPerson', 'oddTerm'] },
   chrono: { title: 'Хронология', description: 'Порядок событий, что раньше, год по событию', gens: ['order', 'earliest', 'matchYears', 'yearInput', 'syncOrder'] },
   sources: { title: 'Источники', description: 'Документ, автор, год и событие по отрывку', gens: ['sourceWhich', 'sourceYear', 'sourceAuthor', 'sourceEvent', 'sourceByClues'] },
+  pictures: { title: 'По изображению', description: 'Памятник, событие и человек по картинке', gens: ['pictureCulture', 'pictureEvent', 'picturePerson'] },
 } satisfies Record<string, { title: string; description: string; gens: (keyof typeof G)[] }>;
 export type DrillId = keyof typeof DRILLS;
 
