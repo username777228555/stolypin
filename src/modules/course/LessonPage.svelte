@@ -4,7 +4,8 @@
    * each closed by a comprehension question → «Вспомните урок» (write it down from memory with the text hidden,
    * then check against the lesson's points, RecallStep) → historians' views and the summary → «Даты урока»
    * (DatesPage) → «Проверка» (the lesson's quiz, src=lesson). A due review starts with the recall again.
-   * Links `[[id]]` open the entity sheet; under each section — pictures of the works it mentions (LessonFigures).
+   * Links `[[id]]` open the entity sheet; pictures of the works, events and people a section mentions stand in its
+   * text after the paragraph that names them (LessonFigures).
    * Answers go to the knowledge map. The pass is kept (lessonSession):
    * leaving for «Даты урока» or a card and coming back restores the answers, the sections opened and the step.
    */
@@ -32,10 +33,12 @@
   import RecallStep from './RecallStep.svelte';
   import { lessonDates } from './dates';
   import type { RecallAttempt } from './recall';
-  import { lessonHtml } from './text';
+  import { lessonFigures, lessonHtml, paragraphs } from './text';
   import LessonFigures from './LessonFigures.svelte';
 
   const lesson = kb.lessons.find((l) => l.id === router.params.id);
+  /** Pictures of the lesson: `[section][paragraph]`. */
+  const figures = lesson ? lessonFigures(lesson.sections) : [];
   const period = lesson ? kb.periodById.get(lesson.period) : undefined;
   let st = $state<LessonState | undefined>();
   /** Sections shown so far (0 — intro and warm-up). */
@@ -127,10 +130,21 @@
   const check = () => lesson && navigate(`/quiz/run?src=lesson&id=${lesson.id}`);
 </script>
 
-{#snippet ask(key: string, q: Question)}
+<!-- A section text with its pictures after the paragraphs that mention them. -->
+{#snippet body(sec: { text: string }, i: number)}
+  <div class="text">
+    {#each paragraphs(sec.text) as para, k (k)}
+      {@html lessonHtml(para)}
+      {#if figures[i]?.[k]?.length}<LessonFigures figs={figures[i]![k]!} onopen={openEntity} />{/if}
+    {/each}
+  </div>
+{/snippet}
+
+<!-- `seen`: the question's picture already stands in the section just above it. -->
+{#snippet ask(key: string, q: Question, seen = false)}
   {@const QC = QUESTION_COMPONENTS[q.type]}
   {@const done = scores[key] !== undefined}
-  {@const img = kb.questionImage(q)}
+  {@const img = seen ? undefined : kb.questionImage(q)}
   <div class="ask">
     <p class="ask-q">{q.prompt}</p>
     {#if img}<QuestionImage src={img} />{/if}
@@ -179,8 +193,7 @@
             {#if sec}
               <section class="sec reread" in:fly={{ y: 10, duration: 200 }}>
                 <h2 class="h"><span class="num n">{reread}</span>{sec.title}</h2>
-                <div class="text">{@html lessonHtml(sec.text)}</div>
-                <LessonFigures section={sec} onopen={openEntity} />
+                {@render body(sec, reread - 1)}
               </section>
             {/if}
           {/if}
@@ -201,12 +214,11 @@
         {#each lesson.sections.slice(0, shown) as sec, i (i)}
           <section class="sec" id="sec-{i}" in:fly={{ y: 14, duration: 260 }}>
             <h2 class="h"><span class="num n">{i + 1}</span>{sec.title}</h2>
-            <div class="text">{@html lessonHtml(sec.text)}</div>
-            <LessonFigures section={sec} onopen={openEntity} />
+            {@render body(sec, i)}
             {#each sec.check ?? [] as q, k (k)}
               <div class="check">
                 <span class="eyebrow">Проверьте себя</span>
-                {@render ask(`s${i}-${k}`, q)}
+                {@render ask(`s${i}-${k}`, q, figures[i]?.flat().some((f) => f.id === q.figure))}
               </div>
             {/each}
             {#if i === shown - 1 && !readAll}

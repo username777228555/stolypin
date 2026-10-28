@@ -1,11 +1,11 @@
 <script lang="ts">
   /**
-   * Pictures under a lesson section: the works of culture linked in its text (a building, a painting, an icon,
-   * a title page), or exactly the section's `figures` (any entity with a picture; `[]` — none). One picture
-   * fills the width, several scroll sideways. A tap opens it full screen with zoom and the credit; «Карточка»
-   * opens the entity sheet, as a link in the text does.
+   * Pictures inside a lesson text, after the paragraph that mentions them (`lessonFigures` in text.ts): a work of
+   * culture, an event, a portrait. Each fills the width at its own proportions (up to most of the screen height);
+   * several in a row scroll sideways. A tap opens it full screen with zoom and the credit; «Карточка» opens the
+   * entity sheet, as a link in the text does.
    *
-   *   <LessonFigures section={sec} onopen={(id) => openSheet(…)} />
+   *   <LessonFigures figs={figures[i][k]} onopen={(id) => openSheet(…)} />
    */
   import { fade, scale } from 'svelte/transition';
   import { X, ChevronLeft, ChevronRight, ArrowRight } from '@lucide/svelte';
@@ -15,16 +15,14 @@
   import { kb } from '$lib/core/content/kb.svelte';
   import { formatSpan } from '$lib/core/utils/format';
   import { haptic } from '$lib/core/platform';
-  import { figuresOf, type Figure } from './text';
+  import type { Figure } from './text';
 
   interface Props {
-    section: { text: string; figures?: string[] };
+    figs: Figure[];
     /** Open the entity sheet (same as a `[[link]]` in the text). */
     onopen: (id: string) => void;
   }
-  let { section, onopen }: Props = $props();
-
-  const figs = $derived<Figure[]>(figuresOf(section));
+  let { figs, onopen }: Props = $props();
   let open = $state<number | null>(null);
   let busy = $state(false);
   let downX = 0;
@@ -39,7 +37,7 @@
     else if (e.key === 'ArrowRight') show(open + 1);
     else if (e.key === 'ArrowLeft') show(open - 1);
   }
-  /** «Иван Шишкин, 1889» — who made it and when; events and portraits get their year. */
+  /** «Иван Шишкин, 1889» — who made it and when; an event — its year, a portrait — the years of life. */
   function sub(f: Figure): string {
     const e = kb.get(f.id);
     if (!e) return '';
@@ -49,6 +47,7 @@
       return [who, formatSpan(c.year, c.endYear, c.circa)].filter(Boolean).join(', ');
     }
     if (e.kind === 'event') return String(e.item.year);
+    if (e.kind === 'person' && (e.item.born || e.item.died)) return `${e.item.born ?? '?'}–${e.item.died ?? ''}`;
     return '';
   }
 </script>
@@ -61,6 +60,7 @@
       <figure>
         <button type="button" class="pic" onclick={() => show(i)} aria-label="Открыть: {f.title}">
           <img src={f.src} alt={f.title} loading="lazy" decoding="async" />
+          {#if figs.length > 1}<span class="count num">{i + 1} / {figs.length}</span>{/if}
         </button>
         <figcaption><b>{f.title}</b>{#if sub(f)}<span class="muted"> · {sub(f)}</span>{/if}</figcaption>
       </figure>
@@ -92,14 +92,15 @@
 {/if}
 
 <style>
-  .figs { display: flex; gap: var(--sp-3); overflow-x: auto; scroll-snap-type: x mandatory; margin: var(--sp-2) calc(-1 * var(--sp-1)) var(--sp-3); padding: 2px var(--sp-1) 6px; scrollbar-width: none; }
+  /* Full width at the picture's own proportions; several — sideways, the next one peeking out. */
+  .figs { display: flex; align-items: flex-start; gap: var(--sp-3); overflow-x: auto; scroll-snap-type: x mandatory; margin: var(--sp-1) calc(-1 * var(--sp-1)) var(--sp-5); padding: 2px var(--sp-1) 6px; scrollbar-width: none; font-family: var(--font-ui, inherit); }
   .figs::-webkit-scrollbar { display: none; }
-  figure { margin: 0; flex: 0 0 min(76%, 300px); scroll-snap-align: start; display: flex; flex-direction: column; gap: 6px; }
+  figure { margin: 0; flex: 0 0 88%; scroll-snap-align: center; display: flex; flex-direction: column; gap: 6px; }
   .one figure { flex-basis: 100%; }
-  .pic { display: block; width: 100%; padding: 0; border: 0; border-radius: var(--r-md); overflow: hidden; cursor: zoom-in; background: var(--surface-2, var(--surface)); box-shadow: var(--shadow-2); }
-  .pic img { display: block; width: 100%; height: 190px; object-fit: contain; }
-  .one .pic img { height: clamp(200px, 52vw, 320px); }
-  figcaption { font-size: var(--text-xs); line-height: 1.35; color: var(--ink-2); }
+  .pic { position: relative; display: block; width: 100%; padding: 0; border: 0; border-radius: var(--r-md); overflow: hidden; cursor: zoom-in; background: var(--surface-2, var(--surface)); box-shadow: var(--shadow-2); }
+  .pic img { display: block; width: 100%; height: auto; max-height: min(72dvh, 760px); object-fit: contain; }
+  .count { position: absolute; right: 8px; top: 8px; padding: 2px 8px; border-radius: var(--r-full); background: rgba(20, 14, 9, 0.6); color: #f3eadb; font-size: var(--text-2xs); font-weight: 700; }
+  figcaption { font-size: var(--text-sm); line-height: 1.35; color: var(--ink-2); }
   figcaption b { color: var(--ink); font-weight: 650; }
   .viewer { position: fixed; inset: 0; z-index: 80; background: radial-gradient(120% 90% at 50% 20%, #2b2016, #0d0906); overflow-y: auto; padding: calc(var(--safe-top) + 56px) var(--sp-4) calc(var(--safe-bottom) + var(--sp-6)); touch-action: pan-y; }
   .stage { max-width: 760px; margin: 0 auto; display: flex; flex-direction: column; gap: var(--sp-3); }

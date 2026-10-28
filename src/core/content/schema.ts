@@ -343,9 +343,9 @@ export const LessonSchema = z.strictObject({
   /** Questions before reading: a guess primes attention, the answer is not scored. */
   warmup: z.array(QuestionSchema).max(3).optional(),
   /**
-   * Parts of the lesson. Under the text the screen shows the pictures of the works of culture linked in it
-   * (`[[c-…]]` with an `image`); `figures` replaces that choice with given ids — any entity with a picture
-   * (an event, a portrait) — and `[]` shows none.
+   * Parts of the lesson. The screen puts in the text the pictures of the works, events and people linked in it,
+   * after the paragraph that first names them (course/text.ts `lessonFigures`); `figures` replaces that choice
+   * with given ids, and `[]` shows none.
    */
   sections: z.array(z.strictObject({ title: Text, text: Text, check: z.array(QuestionSchema).max(2).optional(), figures: z.array(Id).max(8).optional() })).min(2).max(8),
   /** Points of view of historians on the topic (paraphrased positions, not quotes). */
