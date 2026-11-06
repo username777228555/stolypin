@@ -1,6 +1,7 @@
 /**
  * Lesson text → HTML: paragraphs and **bold** like richText, plus `[[id]]` / `[[id|подпись]]` links to the
- * knowledge base rendered as buttons with `data-ref` (the page opens the entity sheet on tap); `lessonFigures` —
+ * knowledge base rendered as inline links with `data-ref` (the page opens the entity sheet on tap; a link, not a
+ * button, so a long label wraps with the line instead of jumping to its own); `lessonFigures` —
  * the pictures placed in the text after the paragraphs that mention them (LessonFigures.svelte).
  */
 import { escapeHtml, richText } from '$lib/core/utils/text';
@@ -9,7 +10,7 @@ import type { ImageInfo } from '$lib/core/content/schema';
 
 export function lessonHtml(text: string): string {
   return richText(text).replace(/\[\[([a-z0-9-]+)(?:\|([^\]]+))?\]\]/g, (_, id: string, label?: string) =>
-    kb.get(id) ? `<button type="button" class="ref" data-ref="${id}">${label ?? escapeHtml(kb.title(id))}</button>` : (label ?? id),
+    kb.get(id) ? `<a class="ref" href="#/entity/${id}" data-ref="${id}">${label ?? escapeHtml(kb.title(id))}</a>` : (label ?? id),
   );
 }
 

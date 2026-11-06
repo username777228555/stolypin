@@ -92,6 +92,8 @@
   });
 
   function interceptLinks(e: MouseEvent) {
+    // A handler on the way up (a lesson link opening its card as a sheet) has already dealt with the click.
+    if (e.defaultPrevented) return;
     const a = (e.target as HTMLElement | null)?.closest?.('a');
     const href = a?.getAttribute('href');
     if (a && href?.startsWith('#/')) {

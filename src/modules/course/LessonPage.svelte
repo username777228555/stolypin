@@ -125,7 +125,9 @@
   }
   function openRef(ev: MouseEvent) {
     const id = (ev.target as HTMLElement).closest<HTMLElement>('[data-ref]')?.dataset.ref;
-    if (id) openEntity(id);
+    if (!id) return;
+    ev.preventDefault();
+    openEntity(id);
   }
   const check = () => lesson && navigate(`/quiz/run?src=lesson&id=${lesson.id}`);
 </script>
@@ -243,7 +245,7 @@
               <div class="stack views">
                 {#each lesson.views as v (v.who)}
                   <div class="view surface">
-                    {#if v.person && kb.get(v.person)}<button type="button" class="ref who" data-ref={v.person}>{v.who}</button>{:else}<strong class="who">{v.who}</strong>{/if}
+                    {#if v.person && kb.get(v.person)}<a class="ref who" href="#/entity/{v.person}" data-ref={v.person}>{v.who}</a>{:else}<strong class="who">{v.who}</strong>{/if}
                     <span>{v.view}</span>
                   </div>
                 {/each}
