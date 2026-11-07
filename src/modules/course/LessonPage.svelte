@@ -11,7 +11,7 @@
    */
   import { onMount, tick } from 'svelte';
   import { fly } from 'svelte/transition';
-  import { Clock, Target, ArrowDown, ListChecks, RotateCcw, CircleCheck, Lightbulb, Brain, CalendarClock, Check } from '@lucide/svelte';
+  import { Clock, Target, ArrowDown, ListChecks, RotateCcw, CircleCheck, Lightbulb, Brain, CalendarClock, Check, CircleHelp as HelpCircle, BookOpen } from '@lucide/svelte';
   import PageHeader from '$lib/design/components/PageHeader.svelte';
   import Card from '$lib/design/components/Card.svelte';
   import Button from '$lib/design/components/Button.svelte';
@@ -33,8 +33,10 @@
   import RecallStep from './RecallStep.svelte';
   import { lessonDates } from './dates';
   import type { RecallAttempt } from './recall';
-  import { lessonFigures, lessonHtml, paragraphs } from './text';
+  import { lessonFigures, lessonHtml, lessonInline, paragraphs } from './text';
   import LessonFigures from './LessonFigures.svelte';
+  import LessonBlock from './blocks/LessonBlock.svelte';
+  import type { LessonBlock as Block } from '$lib/core/content/schema';
 
   const lesson = kb.lessons.find((l) => l.id === router.params.id);
   /** Pictures of the lesson: `[section][paragraph]`. */
@@ -132,12 +134,14 @@
   const check = () => lesson && navigate(`/quiz/run?src=lesson&id=${lesson.id}`);
 </script>
 
-<!-- A section text with its pictures after the paragraphs that mention them. -->
-{#snippet body(sec: { text: string }, i: number)}
+<!-- A section text with its pictures after the paragraphs that mention them, and its blocks (after paragraph `at`, else at the end). -->
+{#snippet body(sec: { text: string; blocks?: Block[] }, i: number)}
+  {@const paras = paragraphs(sec.text)}
   <div class="text">
-    {#each paragraphs(sec.text) as para, k (k)}
+    {#each paras as para, k (k)}
       {@html lessonHtml(para)}
       {#if figures[i]?.[k]?.length}<LessonFigures figs={figures[i]![k]!} onopen={openEntity} />{/if}
+      {#each sec.blocks ?? [] as b, n (n)}{#if (b.at ?? paras.length) === k + 1}<LessonBlock {b} />{/if}{/each}
     {/each}
   </div>
 {/snippet}
@@ -176,6 +180,9 @@
             <span class="row muted"><ListChecks size={15} /> {pluralN(lesson.quiz.length, WORDS.question)} в проверке</span>
             {#if st?.done}<Badge tone="success">пройден</Badge>{/if}
           </div>
+          {#if lesson.question}
+            <div class="cq"><span class="eyebrow"><HelpCircle size={14} /> Главный вопрос урока</span><p>{@html lessonInline(lesson.question)}</p></div>
+          {/if}
           <p class="goals-t"><Target size={16} /> После урока вы сможете</p>
           <ul class="goals">{#each lesson.goals as g (g)}<li>{g}</li>{/each}</ul>
           {#if st?.done && phase !== 'recall'}
@@ -256,6 +263,17 @@
             <h2 class="h"><CircleCheck size={18} /> Главное</h2>
             <ul class="sum">{#each lesson.summary as s (s)}<li>{s}</li>{/each}</ul>
           </section>
+          {#if lesson.literature?.length}
+            <section class="sec">
+              <h2 class="h"><BookOpen size={18} /> Литература для эссе</h2>
+              <p class="muted small">На эти работы можно ссылаться в эссе: фамилия с инициалами и название — как здесь.</p>
+              <ul class="lit">
+                {#each lesson.literature as w (w.who + w.work)}
+                  <li><strong>{w.who}</strong> «{w.work}»{#if w.year} ({w.year}){/if}{#if w.note}<span class="muted"> — {w.note}</span>{/if}</li>
+                {/each}
+              </ul>
+            </section>
+          {/if}
         {/if}
         </div>
 
@@ -318,6 +336,10 @@
   .ask-q { font-weight: 650; margin: 4px 0 var(--sp-2); line-height: 1.4; }
   .exp { margin-top: var(--sp-2); font-size: var(--text-sm); color: var(--ink-2); }
   blockquote { margin: 0 0 var(--sp-2); padding: var(--sp-2) var(--sp-3); border-left: 3px solid var(--c); font-family: var(--font-read); font-size: var(--text-sm); color: var(--ink-2); }
+  .cq { margin: var(--sp-3) 0 0; padding: var(--sp-2) var(--sp-3); border-radius: var(--r-md); border-left: 4px solid var(--c); background: color-mix(in srgb, var(--c) 7%, var(--surface)); }
+  .cq .eyebrow { display: inline-flex; align-items: center; gap: 5px; color: var(--c); }
+  .cq p { margin: 4px 0 0; font-family: var(--font-read); font-size: var(--text-md, 1.05rem); font-weight: 600; line-height: 1.4; }
+  .lit { margin: 0; padding-left: 1.2em; display: flex; flex-direction: column; gap: 6px; font-size: var(--text-sm); line-height: 1.45; }
   .views { --gap: var(--sp-2); }
   .view { display: flex; flex-direction: column; gap: 4px; padding: var(--sp-3); border-radius: var(--r-md); font-size: var(--text-sm); line-height: 1.5; }
   .who { font-weight: 700; text-align: left; }

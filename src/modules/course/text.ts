@@ -14,6 +14,16 @@ export function lessonHtml(text: string): string {
   );
 }
 
+/** One line of lesson markup without paragraphs — table cells, labels of blocks: **bold**, *italic*, [[links]]. */
+export function lessonInline(text: string): string {
+  return escapeHtml(text.trim())
+    .replace(/\*\*(.+?)\*\*/g, '<strong>$1</strong>')
+    .replace(/\*(.+?)\*/g, '<em>$1</em>')
+    .replace(/\[\[([a-z0-9-]+)(?:\|([^\]]+))?\]\]/g, (_, id: string, label?: string) =>
+      kb.get(id) ? `<a class="ref" href="#/entity/${id}" data-ref="${id}">${label ?? escapeHtml(kb.title(id))}</a>` : (label ?? id),
+    );
+}
+
 /** Plain text without link markup (for previews). */
 export const lessonPlain = (text: string) => text.replace(/\[\[[a-z0-9-]+\|([^\]]+)\]\]/g, '$1').replace(/\[\[([a-z0-9-]+)\]\]/g, (_, id: string) => kb.title(id));
 

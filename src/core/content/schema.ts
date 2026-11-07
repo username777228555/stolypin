@@ -327,6 +327,90 @@ export const MapSchema = z.strictObject({
 });
 
 /**
+ * Kinds of written sources by why they were made (the source-study classification olympiad projects ask for):
+ * a law sets norms for all, an act sets relations between parties, office papers serve a system, records control
+ * decisions already taken, statistics prepares new ones… Labels and purposes — modules/course/blocks/genres.ts.
+ */
+export const SOURCE_GENRES = [
+  'chronicle', 'law', 'act', 'office', 'records', 'statistics', 'publicism', 'periodical', 'personal', 'literature', 'historiography',
+] as const;
+
+/** A position of a historian or contemporary in a dispute: who, in which work, the thesis and what it rests on. */
+const PositionSchema = z.strictObject({
+  /** «В. О. Ключевский» — initials and surname, as an essay must name them. */
+  who: Text,
+  person: Id.optional(),
+  /** The work the position comes from: «Курс русской истории». No work — no position. */
+  work: Text,
+  year: z.number().int().optional(),
+  /** The historian's idea, retold (essays retell, they do not quote). */
+  thesis: Text,
+  /** The facts the historian proves it with. */
+  argument: Text,
+  /** Where the position was checked: an article or book with page or URL. Not shown to the student. */
+  ref: Text,
+});
+
+/**
+ * Blocks inside a lesson section, besides its text: tables, documents, disputes, schemes… They stand after the
+ * section text, or after paragraph `at` (from 1). Text fields take `**bold**` and `[[id|links]]`.
+ */
+const at = z.number().int().min(1).optional();
+export const LessonBlockSchema = z.discriminatedUnion('type', [
+  /** A comparison table: rows of the same features side by side. */
+  z.strictObject({ type: z.literal('table'), at, title: OptText, head: z.array(Text).min(2).max(5), rows: z.array(z.array(Text)).min(1).max(16), note: OptText }),
+  /**
+   * A document worked like an olympiad «project»: its kind by purpose, the moment it was written in, who wrote it,
+   * when, why and for whom, the words that betray its time, and questions with answers to check oneself.
+   */
+  z.strictObject({
+    type: z.literal('document'), at,
+    source: Id.optional(),
+    title: Text,
+    genre: z.enum(SOURCE_GENRES),
+    author: OptText,
+    date: OptText,
+    excerpt: Text,
+    /** Характеристика момента: what had happened by the time it was written and bears on it. */
+    moment: OptText,
+    /** Характеристика источника: purpose, addressee, published or not, the author's stance; formulary for acts. */
+    about: OptText,
+    /** «По каким словам узнать»: phrases that date or attribute it. */
+    clues: z.array(Text).max(5).optional(),
+    questions: z.array(z.strictObject({ q: Text, a: Text })).max(4).optional(),
+  }),
+  /** A dispute: a question and 2–4 positions with works; `note` — what the dispute is really about. */
+  z.strictObject({ type: z.literal('debate'), at, question: Text, positions: z.array(PositionSchema).min(2).max(4), note: OptText }),
+  /** Causes and consequences as a chain of steps. */
+  z.strictObject({ type: z.literal('chain'), at, title: OptText, steps: z.array(z.strictObject({ label: Text, text: OptText })).min(2).max(8) }),
+  /** «Не путать»: pairs that olympiad answers confuse, and how to tell them apart. */
+  z.strictObject({ type: z.literal('pitfalls'), at, items: z.array(z.strictObject({ a: Text, b: Text, how: Text })).min(1).max(5) }),
+  /** Numbers that prove something, with the conclusion and where they come from. */
+  z.strictObject({ type: z.literal('numbers'), at, title: OptText, items: z.array(z.strictObject({ value: Text, label: Text })).min(2).max(6), conclusion: Text, ref: Text }),
+  /**
+   * A model of an essay task: «задача = тезис + аргументы + вывод», each argument «факт → анализ → вывод», a historian's
+   * view woven in where it strengthens the argument.
+   */
+  z.strictObject({
+    type: z.literal('argument'), at,
+    task: Text,
+    thesis: Text,
+    args: z.array(z.strictObject({ fact: Text, analysis: Text, view: OptText, conclusion: Text })).min(2).max(3),
+    conclusion: Text,
+  }),
+  /** A quote of a historian taken apart for an essay: meaning blocks → the author's idea → a neutral task; the problem. */
+  z.strictObject({
+    type: z.literal('essay'), at,
+    quote: Text,
+    who: Text,
+    work: OptText,
+    parts: z.array(z.strictObject({ part: Text, idea: Text, task: Text })).min(3).max(5),
+    problem: Text,
+  }),
+]);
+export type LessonBlock = z.infer<typeof LessonBlockSchema>;
+
+/**
  * A lesson of the «Курс»: one topic told as a coherent text, with retrieval checks between its parts
  * (modules/course). In `text`, `[[id]]` / `[[id|подпись]]` link to the knowledge base; the lesson's
  * `entities` are what it teaches — they come back in the lesson reviews.
@@ -340,6 +424,8 @@ export const LessonSchema = z.strictObject({
   minutes: z.number().int().min(1).max(40).optional(),
   /** «После урока вы сможете…» */
   goals: z.array(Text).min(1).max(5),
+  /** The lesson's central question — a problem the whole lesson answers, as an essay would. */
+  question: OptText,
   /** Questions before reading: a guess primes attention, the answer is not scored. */
   warmup: z.array(QuestionSchema).max(3).optional(),
   /**
@@ -347,9 +433,17 @@ export const LessonSchema = z.strictObject({
    * after the paragraph that first names them (course/text.ts `lessonFigures`); `figures` replaces that choice
    * with given ids, and `[]` shows none.
    */
-  sections: z.array(z.strictObject({ title: Text, text: Text, check: z.array(QuestionSchema).max(2).optional(), figures: z.array(Id).max(8).optional() })).min(2).max(8),
-  /** Points of view of historians on the topic (paraphrased positions, not quotes). */
+  sections: z.array(z.strictObject({
+    title: Text,
+    text: Text,
+    blocks: z.array(LessonBlockSchema).max(6).optional(),
+    check: z.array(QuestionSchema).max(2).optional(),
+    figures: z.array(Id).max(8).optional(),
+  })).min(2).max(8),
+  /** Points of view of historians on the topic (paraphrased positions, not quotes). Older lessons; new ones use `debate` blocks. */
   views: z.array(z.strictObject({ who: Text, person: Id.optional(), view: Text })).max(5).optional(),
+  /** Works to name in an essay on the topic: author, title, year, what it gives. */
+  literature: z.array(z.strictObject({ who: Text, work: Text, year: z.number().int().optional(), note: OptText })).max(10).optional(),
   summary: z.array(Text).min(3).max(8),
   /**
    * What a good recall of the lesson contains — the checklist after the student writes the lesson down from memory.

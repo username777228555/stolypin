@@ -5,6 +5,7 @@
 import type { z } from 'zod';
 import { pluralN, WORDS } from '../utils/format';
 import { undatedCollisions } from './titles';
+import { blockTexts } from './lesson-blocks';
 import {
   FragmentSchema, PackManifestSchema, PeriodsFileSchema, ID_PREFIX, SYMMETRIC_LINKS,
   type EntityKind, type Fragment, type PackManifest, type Period, type Question,
@@ -357,20 +358,33 @@ export function validateContent(periods: Period[], packs: PackInput[], opts: Val
         l.views?.forEach((v, j) => ref(`${at}.views[${j}].person`, v.person, ['person']));
         l.warmup?.forEach((q, j) => checkQuestion(`${at}.warmup[${j}]`, q));
         l.quiz.forEach((q, j) => checkQuestion(`${at}.quiz[${j}]`, q));
+        // [[id]] links must exist; a year written right after a linked event must be its year («[[e-x|битва]] (1242)»).
+        const checkText = (path: string, text: string) => {
+          checkLatin(file, path, text);
+          for (const m of text.matchAll(/\[\[([a-z0-9-]+)(?:\|[^\]]+)?\]\](?:\s*\(|\s+в\s+)?(\d{3,4})?/g)) {
+            ref(path, m[1]);
+            const hit = registry.get(m[1]!);
+            if (m[2] && hit?.kind === 'event') {
+              const ev = eventYears.get(m[1]!);
+              if (ev && +m[2] !== ev[0] && +m[2] !== ev[1]) add('warning', file, path, `у «${m[1]}» в базе ${ev[0]}${ev[1] !== ev[0] ? `–${ev[1]}` : ''}, в тексте ${m[2]}`);
+            }
+          }
+        };
+        if (l.question) checkText(`${at}.question`, l.question);
         l.sections.forEach((sec, j) => {
           const sp = `${at}.sections[${j}]`;
           sec.check?.forEach((q, k) => checkQuestion(`${sp}.check[${k}]`, q));
           sec.figures?.forEach((id, k) => ref(`${sp}.figures[${k}]`, id));
-          checkLatin(file, `${sp}.text`, sec.text);
-          // [[id]] links must exist; a year written right after a linked event must be its year («[[e-x|битва]] (1242)»).
-          for (const m of sec.text.matchAll(/\[\[([a-z0-9-]+)(?:\|[^\]]+)?\]\](?:\s*\(|\s+в\s+)?(\d{3,4})?/g)) {
-            ref(`${sp}.text`, m[1]);
-            const hit = registry.get(m[1]!);
-            if (m[2] && hit?.kind === 'event') {
-              const ev = eventYears.get(m[1]!);
-              if (ev && +m[2] !== ev[0] && +m[2] !== ev[1]) add('warning', file, `${sp}.text`, `у «${m[1]}» в базе ${ev[0]}${ev[1] !== ev[0] ? `–${ev[1]}` : ''}, в тексте ${m[2]}`);
-            }
-          }
+          checkText(`${sp}.text`, sec.text);
+          const paras = sec.text.split(/\n{2,}/).length;
+          sec.blocks?.forEach((b, k) => {
+            const bp = `${sp}.blocks[${k}]`;
+            if (b.at && b.at > paras) add('error', file, `${bp}.at`, `в тексте раздела ${pluralN(paras, WORDS.paragraph)}`);
+            for (const [path, text] of blockTexts(b)) checkText(`${bp}.${path}`, text);
+            if (b.type === 'table') b.rows.forEach((r, n) => r.length !== b.head.length && add('error', file, `${bp}.rows[${n}]`, `в строке ${r.length} ячеек, в шапке ${b.head.length}`));
+            if (b.type === 'document') ref(`${bp}.source`, b.source, ['source']);
+            if (b.type === 'debate') b.positions.forEach((p, n) => ref(`${bp}.positions[${n}].person`, p.person, ['person']));
+          });
         });
       });
       d.maps?.forEach((map, i) => {
