@@ -968,10 +968,12 @@
       "importance": 2,
       "image": "images/culture/c-posle-poboishcha-igorya.webp",
       "imageInfo": {
-        "date": "Снято: 12 мая 2018",
+        "date": "1880",
         "about": "Изображение: «После побоища Игоря Святославича с половцами»",
         "license": "Общественное достояние",
-        "source": "https://commons.wikimedia.org/wiki/File:After_the_battle_of_Igor_Svyatoslavich_with_the_Cumans_par_Victor_Mikhailovich_Vasnetsov.jpg"
+        "source": "https://commons.wikimedia.org/wiki/File:After_the_battle_of_Igor_Svyatoslavich_with_the_Cumans_par_Victor_Mikhailovich_Vasnetsov.jpg",
+        "title": "После побоища Игоря Святославича с половцами",
+        "author": "Виктор Михайлович Васнецов"
       },
       "wiki": "После побоища Игоря Святославича с половцами"
     },
