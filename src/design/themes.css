@@ -74,6 +74,165 @@
   --on-accent: #1a0d10;
 }
 
+/* Новогоднее оформление «Русская зима»: 100% матовое 2D — Гжель (бело-синий фарфор) и Хохлома (чёрный лак, золото, киноварь, травяная зелень). */
+[data-winter='gzhel'] {
+  --bg: #f6f9fe;
+  --bg-2: #ebf2fc;
+  --surface: #ffffff;
+  --surface-2: #f1f6fd;
+  --surface-3: #e3edfa;
+  --line: #c4d6f0;
+  --line-strong: #87ace0;
+  --ink: #0f2140;
+  --ink-2: #2b456e;
+  --ink-3: #567099;
+  --ink-inv: #f8fbff;
+  --gold: #b5821e;
+  --gold-soft: #f7ebd0;
+  --info: #1d469e;
+  --info-soft: #e0ecfc;
+  --shadow-1: 0 2px 0 rgba(25, 62, 138, 0.08);
+  --shadow-2: 0 6px 16px rgba(20, 50, 112, 0.1);
+  --shadow-3: 0 14px 36px rgba(15, 38, 86, 0.18);
+  --glow: transparent;
+  --glass: #ffffff;
+  --grain-opacity: 0.06;
+
+  --accent: #1d469e;
+  --accent-2: #2b5ec2;
+  --accent-soft: #e0ecfc;
+  --on-accent: #f8fbff;
+
+  --emblem-bg-1: #1d469e;
+  --emblem-bg-2: #15367d;
+  --emblem-shadow: rgba(21, 54, 125, 0.26);
+  --winter-hat-1: #1f4ca8;
+  --winter-hat-2: #183e8c;
+  --winter-gem: #84b8ff;
+  --winter-orn-1: #1d469e;
+  --winter-orn-2: #3b6fd1;
+  --winter-orn-3: #c49024;
+  --winter-snow: #4b7fd6;
+}
+
+[data-theme='dark'][data-winter='gzhel'] {
+  --bg: #0c172b;
+  --bg-2: #11203b;
+  --surface: #13223e;
+  --surface-2: #192c4f;
+  --surface-3: #223963;
+  --line: #294575;
+  --line-strong: #466dae;
+  --ink: #eff5ff;
+  --ink-2: #c4d7f5;
+  --ink-3: #89a6cf;
+  --ink-inv: #0c172b;
+  --gold: #e8be5e;
+  --gold-soft: #332813;
+  --info: #7eb5ff;
+  --info-soft: #1a3057;
+  --shadow-1: 0 2px 0 rgba(0, 0, 0, 0.36);
+  --shadow-2: 0 6px 18px rgba(0, 0, 0, 0.44);
+  --shadow-3: 0 16px 40px rgba(0, 0, 0, 0.56);
+  --glow: transparent;
+  --glass: #13223e;
+  --grain-opacity: 0.04;
+
+  --accent: #7ab2ff;
+  --accent-2: #9dc8ff;
+  --accent-soft: #1a325c;
+  --on-accent: #091428;
+
+  --emblem-bg-1: #2355b2;
+  --emblem-bg-2: #173b82;
+  --emblem-shadow: rgba(0, 0, 0, 0.48);
+  --winter-hat-1: #2457b5;
+  --winter-hat-2: #1a418c;
+  --winter-gem: #8cc0ff;
+  --winter-orn-1: #84b8ff;
+  --winter-orn-2: #528be0;
+  --winter-orn-3: #e8be5e;
+  --winter-snow: #9dc6ff;
+}
+
+[data-winter='khokhloma'] {
+  --bg: #fbf4e4;
+  --bg-2: #f3e6cb;
+  --surface: #fffdf8;
+  --surface-2: #f7ebd3;
+  --surface-3: #eedec0;
+  --line: #dec084;
+  --line-strong: #c49032;
+  --ink: #1a1008;
+  --ink-2: #4a301c;
+  --ink-3: #7d5b3a;
+  --ink-inv: #fffaf0;
+  --gold: #b57b12;
+  --gold-soft: #f6e2b0;
+  --success: #2f7d3a;
+  --success-soft: #dcefd9;
+  --shadow-1: 0 2px 0 rgba(88, 52, 12, 0.09);
+  --shadow-2: 0 6px 16px rgba(72, 42, 10, 0.11);
+  --glow: transparent;
+  --glass: #fffdf8;
+  --grain-opacity: 0.08;
+
+  --accent: #c4231c;
+  --accent-2: #dc3126;
+  --accent-soft: #f9dcd7;
+  --on-accent: #fff9f0;
+
+  --emblem-bg-1: #c4231c;
+  --emblem-bg-2: #8a1612;
+  --emblem-shadow: rgba(94, 16, 16, 0.28);
+  --winter-hat-1: #cc261f;
+  --winter-hat-2: #9e1b16;
+  --winter-gem: #e8b339;
+  --winter-orn-1: #b87c12;
+  --winter-orn-2: #c4231c;
+  --winter-orn-3: #4f8f34;
+  --winter-snow: #c78d24;
+}
+
+[data-theme='dark'][data-winter='khokhloma'] {
+  --bg: #0c0907;
+  --bg-2: #120d09;
+  --surface: #16100c;
+  --surface-2: #1f1711;
+  --surface-3: #2b2017;
+  --line: #4d371a;
+  --line-strong: #8c6525;
+  --ink: #faf0dd;
+  --ink-2: #decba7;
+  --ink-3: #ab946f;
+  --ink-inv: #0c0907;
+  --gold: #e6b338;
+  --gold-soft: #36250b;
+  --success: #68a63c;
+  --success-soft: #1a2c11;
+  --shadow-1: 0 2px 0 rgba(0, 0, 0, 0.48);
+  --shadow-2: 0 8px 20px rgba(0, 0, 0, 0.54);
+  --glow: transparent;
+  --glass: #16100c;
+  --grain-opacity: 0.03;
+
+  --accent: #df3328;
+  --accent-2: #f04a3e;
+  --accent-soft: #3b1310;
+  --on-accent: #fff8ee;
+
+  --emblem-bg-1: #c4231c;
+  --emblem-bg-2: #8a1612;
+  --emblem-shadow: rgba(0, 0, 0, 0.56);
+  --winter-hat-1: #cf2820;
+  --winter-hat-2: #9c1a15;
+  --winter-gem: #e6b338;
+  --winter-orn-1: #e6b338;
+  --winter-orn-2: #df3328;
+  --winter-orn-3: #68a63c;
+  --winter-snow: #e8be5a;
+}
+
 /* Accents */
 [data-accent='malachite'] { --accent: #1d6b57; --accent-2: #26836b; --accent-soft: #d8ece5; --on-accent: #f3fbf7; }
 [data-accent='cobalt'] { --accent: #2b4f8c; --accent-2: #3963ab; --accent-soft: #dde5f3; --on-accent: #f4f7fd; }

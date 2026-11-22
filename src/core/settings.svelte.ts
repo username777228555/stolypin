@@ -1,6 +1,8 @@
 import { db } from './db';
 import { applySystemBars } from './platform';
+import { resolveWinterTheme, type WinterPref, type WinterTheme } from './season';
 
+export type { WinterPref, WinterTheme };
 export type ThemePref = 'system' | 'light' | 'dark';
 export type Accent = 'crimson' | 'malachite' | 'cobalt' | 'gold';
 export type ReaderTheme = 'paper' | 'sepia' | 'night' | 'contrast';
@@ -9,6 +11,8 @@ export type ReaderFont = 'literata' | 'old' | 'sans';
 export interface Settings {
   theme: ThemePref;
   accent: Accent;
+  /** Новогодняя тема «Русская зима»: auto (с 15 ноября по 20 января), gzhel, khokhloma или off. */
+  winter: WinterPref;
   reducedMotion: boolean;
   uiScale: number;
   haptics: boolean;
@@ -40,6 +44,7 @@ export interface Settings {
 const DEFAULTS: Settings = {
   theme: 'system',
   accent: 'crimson',
+  winter: 'gzhel',
   reducedMotion: false,
   uiScale: 1,
   haptics: true,
@@ -83,10 +88,15 @@ media?.addEventListener('change', () => applyTheme());
 
 export const isDark = () => settings.theme === 'dark' || (settings.theme === 'system' && !!media?.matches);
 
+export const activeWinter = (): WinterTheme => resolveWinterTheme(settings.winter, isDark());
+
 export function applyTheme(): void {
   const root = document.documentElement;
   const dark = isDark();
+  const winter = activeWinter();
   root.dataset.theme = dark ? 'dark' : 'light';
+  if (winter === 'off') delete root.dataset.winter;
+  else root.dataset.winter = winter;
   if (settings.accent === 'crimson') delete root.dataset.accent;
   else root.dataset.accent = settings.accent;
   root.dataset.motion = settings.reducedMotion ? 'reduced' : 'full';

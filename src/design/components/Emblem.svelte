@@ -14,8 +14,8 @@
 <svg class="emblem" class:animate width={size} height={size} viewBox="0 0 100 100" aria-hidden="true">
   <defs>
     <linearGradient id="{id}-bg" x1="0" y1="0" x2="0" y2="1">
-      <stop offset="0" stop-color="#9a2536" />
-      <stop offset="1" stop-color="#5e1320" />
+      <stop offset="0" stop-color="var(--emblem-bg-1, #9a2536)" />
+      <stop offset="1" stop-color="var(--emblem-bg-2, #5e1320)" />
     </linearGradient>
     <linearGradient id="{id}-gold" x1="0" y1="0" x2="1" y2="1">
       <stop offset="0" stop-color="#f3d68e" />
@@ -44,7 +44,7 @@
 </svg>
 
 <style>
-  .emblem { display: block; flex: 0 0 auto; filter: drop-shadow(0 3px 8px rgba(94, 19, 32, 0.28)); overflow: visible; }
+  .emblem { display: block; flex: 0 0 auto; filter: drop-shadow(0 3px 8px var(--emblem-shadow, rgba(94, 19, 32, 0.28))); overflow: visible; }
   .animate .frame { stroke-dasharray: 1; stroke-dashoffset: 1; animation: emb-draw 1.2s var(--ease-out) 0.15s forwards; }
   .animate .frame.thin { animation-delay: 0.45s; }
   .animate .letters { transform-box: fill-box; transform-origin: center; animation: emb-pop 0.8s var(--ease-spring) 0.5s both; }

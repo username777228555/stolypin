@@ -11,7 +11,7 @@
    */
   import { onMount, tick } from 'svelte';
   import { fly } from 'svelte/transition';
-  import { Clock, Target, ArrowDown, ListChecks, RotateCcw, CircleCheck, Lightbulb, Brain, CalendarClock, Check, CircleHelp as HelpCircle, BookOpen } from '@lucide/svelte';
+  import { Clock, Target, ArrowDown, ArrowLeft, ArrowRight, ListChecks, RotateCcw, CircleCheck, Lightbulb, Brain, CalendarClock, Check, CircleHelp as HelpCircle, BookOpen, ListTree, ChevronDown, ScrollText, Scale, Quote } from '@lucide/svelte';
   import PageHeader from '$lib/design/components/PageHeader.svelte';
   import Card from '$lib/design/components/Card.svelte';
   import Button from '$lib/design/components/Button.svelte';
@@ -30,6 +30,7 @@
   import { pluralN, WORDS } from '$lib/core/utils/format';
   import { noteAnswer } from '$lib/modules/quiz/mistakes';
   import { courseState, daysUntil, lessonAt, lessonRecalled, lessonSession, saveLessonSession, type LessonState } from './progress';
+  import { adjacentLessons, lessonBlockSummary } from './filter';
   import RecallStep from './RecallStep.svelte';
   import { lessonDates } from './dates';
   import type { RecallAttempt } from './recall';
@@ -42,6 +43,37 @@
   /** Pictures of the lesson: `[section][paragraph]`. */
   const figures = lesson ? lessonFigures(lesson.sections) : [];
   const period = lesson ? kb.periodById.get(lesson.period) : undefined;
+  const adj = lesson ? adjacentLessons(kb.lessons, lesson.id) : {};
+  const blockSum = lesson ? lessonBlockSummary(lesson) : null;
+  const firstSecWith = (types: readonly Block['type'][]) =>
+    lesson ? lesson.sections.findIndex((s) => s.blocks?.some((b) => types.includes(b.type))) : -1;
+  const firstDocSec = firstSecWith(['document']);
+  const firstDebateSec = firstSecWith(['debate']);
+  const firstEssaySec = firstSecWith(['argument', 'essay']);
+  let tocOpen = $state(false);
+
+  const SCALES = [0.9, 1, 1.1, 1.22, 1.34] as const;
+  let scaleIdx = $state(1);
+  try {
+    const raw = localStorage.getItem('stolypin-lesson-scale');
+    if (raw !== null) {
+      const saved = Number(raw);
+      if (Number.isInteger(saved) && saved >= 0 && saved < SCALES.length) scaleIdx = saved;
+    }
+  } catch {
+    /* private mode */
+  }
+  const textScale = $derived(SCALES[scaleIdx] ?? 1);
+  function bumpScale(delta: number) {
+    const nextIdx = Math.max(0, Math.min(SCALES.length - 1, scaleIdx + delta));
+    if (nextIdx === scaleIdx) return;
+    scaleIdx = nextIdx;
+    try {
+      localStorage.setItem('stolypin-lesson-scale', String(scaleIdx));
+    } catch {
+      /* ignore */
+    }
+  }
   let st = $state<LessonState | undefined>();
   /** Sections shown so far (0 — intro and warm-up). */
   let shown = $state(0);
@@ -72,9 +104,19 @@
       restored = new Set(Object.keys(s.scores));
       recalled = s.recalled ?? null;
     } else if (st?.at && !st.done) shown = Math.min(st.at, total);
+    const reqSecRaw = router.query.get('sec');
+    const reqSec = reqSecRaw !== null ? Number(reqSecRaw) : NaN;
+    if (Number.isInteger(reqSec) && reqSec >= 0 && reqSec < total) {
+      shown = Math.max(shown, reqSec + 1);
+      phase = 'read';
+    }
     loaded = true;
-    // Back where the student was: the last section opened, or the final steps.
+    // Back where the student was: requested section, saved scroll, last section opened, or final steps.
     await tick();
+    if (Number.isInteger(reqSec) && reqSec >= 0 && reqSec < total) {
+      document.getElementById(`sec-${reqSec}`)?.scrollIntoView({ block: 'start' });
+      return;
+    }
     if (backTo !== null) return void requestAnimationFrame(() => window.scrollTo(0, backTo));
     const target = phase === 'final' ? document.getElementById('final') : phase === 'read' && shown > 0 ? document.getElementById(`sec-${shown - 1}`) : null;
     target?.scrollIntoView({ block: 'start' });
@@ -131,6 +173,27 @@
     ev.preventDefault();
     openEntity(id);
   }
+  async function jumpToSection(i: number) {
+    if (!lesson || i < 0 || i >= total) return;
+    phase = 'read';
+    if (shown <= i) {
+      shown = i + 1;
+      void lessonAt(lesson.id, shown);
+    }
+    tocOpen = false;
+    await tick();
+    document.getElementById(`sec-${i}`)?.scrollIntoView({ behavior: 'smooth', block: 'start' });
+  }
+
+  async function jumpToLiterature() {
+    if (!lesson) return;
+    shown = total;
+    phase = 'final';
+    tocOpen = false;
+    await tick();
+    document.getElementById('sec-lit')?.scrollIntoView({ behavior: 'smooth', block: 'start' });
+  }
+
   const check = () => lesson && navigate(`/quiz/run?src=lesson&id=${lesson.id}`);
 </script>
 
@@ -163,13 +226,20 @@
   </div>
 {/snippet}
 
-<div class="page lesson" style:--c={period?.color ?? 'var(--accent)'}>
+<div class="page lesson" style:--c={period?.color ?? 'var(--accent)'} style:--lesson-scale={textScale}>
   {#if !lesson}
     <PageHeader title="Урок" back="/course" />
     <EmptyState title="Урок не найден" text="Возможно, он был в пакете, который сейчас выключен."><Button href="/course">К курсу</Button></EmptyState>
   {:else}
-    <PageHeader title={lesson.title} eyebrow="{period?.short ?? ''} · урок {lesson.order}" back="/course" />
-    <div class="bar"><ProgressBar value={total ? shown / total : 0} /></div>
+    <PageHeader title={lesson.title} eyebrow="{period?.short ?? ''} · урок {lesson.order}" back="/course">
+      {#snippet actions()}
+        <div class="font-ctl" role="group" aria-label="Размер шрифта">
+          <button type="button" class="fbtn" aria-label="Уменьшить шрифт" disabled={scaleIdx === 0} onclick={() => bumpScale(-1)}>А−</button>
+          <button type="button" class="fbtn" aria-label="Увеличить шрифт" disabled={scaleIdx === SCALES.length - 1} onclick={() => bumpScale(1)}>А+</button>
+        </div>
+      {/snippet}
+    </PageHeader>
+    <div class="bar"><ProgressBar value={total ? shown / total : 0} color={period?.color ?? 'var(--accent)'} /></div>
 
     {#if loaded}
       <!-- svelte-ignore a11y_click_events_have_key_events, a11y_no_static_element_interactions -->
@@ -194,6 +264,63 @@
             </div>
           {/if}
         </Card>
+
+        {#if lesson.sections.length > 1}
+          <details class="toc surface" bind:open={tocOpen}>
+            <summary>
+              <ListTree size={16} class="toc-ico" />
+              <strong class="grow">Содержание урока</strong>
+              <span class="muted num dur">{pluralN(lesson.sections.length, WORDS.section)}</span>
+              <ChevronDown size={16} class="toc-chev" />
+            </summary>
+            <div class="toc-body">
+              {#if (blockSum && blockSum.total > 0) || lesson.literature?.length}
+                <div class="toc-jumps">
+                  {#if firstDocSec >= 0 && blockSum?.documents}
+                    <button type="button" class="tjump" onclick={() => jumpToSection(firstDocSec)}>
+                      <ScrollText size={13} /> {pluralN(blockSum.documents, WORDS.document)}
+                    </button>
+                  {/if}
+                  {#if firstDebateSec >= 0 && blockSum?.debates}
+                    <button type="button" class="tjump" onclick={() => jumpToSection(firstDebateSec)}>
+                      <Scale size={13} /> {pluralN(blockSum.debates, WORDS.debate)}
+                    </button>
+                  {/if}
+                  {#if firstEssaySec >= 0}
+                    <button type="button" class="tjump" onclick={() => jumpToSection(firstEssaySec)}>
+                      <Quote size={13} /> Разбор эссе
+                    </button>
+                  {/if}
+                  {#if lesson.literature?.length}
+                    <button type="button" class="tjump" onclick={jumpToLiterature}>
+                      <BookOpen size={13} /> Литература
+                    </button>
+                  {/if}
+                </div>
+              {/if}
+              <ol class="toc-list">
+                {#each lesson.sections as sec, i (i)}
+                  {@const hasDoc = sec.blocks?.some((b) => b.type === 'document')}
+                  {@const hasDeb = sec.blocks?.some((b) => b.type === 'debate')}
+                  {@const hasEssay = sec.blocks?.some((b) => b.type === 'argument' || b.type === 'essay')}
+                  <li>
+                    <button type="button" class="toc-item" class:opened={i < shown} onclick={() => jumpToSection(i)}>
+                      <span class="toc-n num">{i + 1}</span>
+                      <span class="grow">{sec.title}</span>
+                      {#if hasDoc || hasDeb || hasEssay}
+                        <span class="toc-tags">
+                          {#if hasDoc}<span>док.</span>{/if}
+                          {#if hasDeb}<span>спор</span>{/if}
+                          {#if hasEssay}<span>эссе</span>{/if}
+                        </span>
+                      {/if}
+                    </button>
+                  </li>
+                {/each}
+              </ol>
+            </div>
+          </details>
+        {/if}
 
         {#if phase === 'recall'}
           <RecallStep {lesson} review={reviewing} ondone={recallDone} onreread={(n) => (reread = n)} />
@@ -264,7 +391,7 @@
             <ul class="sum">{#each lesson.summary as s (s)}<li>{s}</li>{/each}</ul>
           </section>
           {#if lesson.literature?.length}
-            <section class="sec">
+            <section class="sec" id="sec-lit">
               <h2 class="h"><BookOpen size={18} /> Литература для эссе</h2>
               <p class="muted small">На эти работы можно ссылаться в эссе: фамилия с инициалами и название — как здесь.</p>
               <ul class="lit">
@@ -306,17 +433,40 @@
           </Card>
           </div>
         {/if}
+
+        {#if adj.prev || adj.next}
+          <nav class="lesson-nav" aria-label="Навигация по урокам">
+            {#if adj.prev}
+              <a class="lnav surface" href="#/lesson/{adj.prev.id}">
+                <span class="lnav-dir"><ArrowLeft size={14} /> Предыдущий</span>
+                <strong class="clamp-2">{adj.prev.order}. {adj.prev.title}</strong>
+              </a>
+            {:else}
+              <span></span>
+            {/if}
+            {#if adj.next}
+              <a class="lnav next surface" href="#/lesson/{adj.next.id}">
+                <span class="lnav-dir">Следующий <ArrowRight size={14} /></span>
+                <strong class="clamp-2">{adj.next.order}. {adj.next.title}</strong>
+              </a>
+            {/if}
+          </nav>
+        {/if}
       </div>
     {/if}
   {/if}
 </div>
 
 <style>
-  .bar { position: sticky; top: calc(var(--safe-top) + 0px); z-index: 4; padding: 6px 0; background: var(--bg); }
+  .font-ctl { display: inline-flex; align-items: center; border-radius: var(--r-full); background: var(--surface); border: 1px solid var(--line); overflow: hidden; }
+  .fbtn { border: 0; background: none; padding: 6px 9px; font-family: var(--font-read); font-size: var(--text-xs); font-weight: 700; color: var(--ink-2); cursor: pointer; line-height: 1; }
+  .fbtn:first-child { border-right: 1px solid var(--line); }
+  .fbtn:disabled { opacity: 0.35; cursor: default; }
+  .bar { position: sticky; top: calc(var(--safe-top) + var(--header-h) + var(--sp-3)); z-index: 10; padding: 4px 0 6px; background: var(--bg); }
   .body { display: flex; flex-direction: column; gap: var(--sp-4); padding-bottom: var(--sp-6); }
   .read { display: flex; flex-direction: column; gap: var(--sp-4); }
   .read[hidden] { display: none; }
-  .final { scroll-margin-top: 64px; }
+  .final { scroll-margin-top: 84px; }
   .was { margin: 0 0 var(--sp-2); font-size: var(--text-sm); font-weight: 650; color: var(--danger); }
   .was.ok { color: var(--success); }
   .meta { gap: var(--sp-3); flex-wrap: wrap; font-size: var(--text-xs); }
@@ -327,8 +477,8 @@
   .acts { gap: var(--sp-2); flex-wrap: wrap; margin-top: var(--sp-2); }
   .h { display: flex; align-items: center; gap: 8px; font-family: var(--font-display); font-size: var(--text-xl); margin: 0 0 var(--sp-2); }
   .n { display: inline-grid; place-items: center; width: 28px; height: 28px; flex: none; border-radius: 50%; background: var(--c); color: #fff; font-size: var(--text-sm); }
-  .sec { scroll-margin-top: 64px; }
-  .text { font-family: var(--font-read); font-size: var(--text-md, 1.05rem); line-height: 1.65; color: var(--ink); }
+  .sec { scroll-margin-top: 84px; }
+  .text { font-family: var(--font-read); font-size: calc(var(--text-md, 1.05rem) * var(--lesson-scale, 1)); line-height: 1.65; color: var(--ink); }
   .text :global(p) { margin: 0 0 0.85em; }
   .lesson :global(.ref) { display: inline; padding: 0 2px; margin: 0; border: 0; background: none; font: inherit; color: var(--c); text-decoration: underline; text-decoration-style: dotted; text-underline-offset: 3px; cursor: pointer; }
   .check, .warm .ask { margin-top: var(--sp-3); padding: var(--sp-3); border-radius: var(--r-md); border: 1px dashed color-mix(in srgb, var(--c) 55%, transparent); background: color-mix(in srgb, var(--c) 5%, var(--surface)); }
@@ -351,4 +501,80 @@
   .steps li.done .si { background: var(--success); color: #fff; }
   .lnk { padding: 0; border: 0; background: none; color: var(--c); font: inherit; font-weight: 650; text-decoration: underline; text-underline-offset: 3px; cursor: pointer; }
   .reread { padding: var(--sp-3); border-radius: var(--r-md); background: var(--surface); }
+  .toc { border-radius: var(--r-lg); overflow: hidden; }
+  .toc summary {
+    list-style: none;
+    display: flex;
+    align-items: center;
+    gap: var(--sp-2);
+    padding: var(--sp-3) var(--sp-4);
+    cursor: pointer;
+    font-size: var(--text-sm);
+    user-select: none;
+  }
+  .toc summary::-webkit-details-marker { display: none; }
+  .toc :global(.toc-ico) { color: var(--c); flex: none; }
+  .toc .dur { font-size: var(--text-xs); white-space: nowrap; flex: none; }
+  .toc :global(.toc-chev) { color: var(--ink-3); flex: none; transition: transform var(--dur-2) var(--ease-out); }
+  .toc[open] :global(.toc-chev) { transform: rotate(180deg); }
+  .toc-body { padding: 0 var(--sp-3) var(--sp-3); display: flex; flex-direction: column; gap: var(--sp-2); }
+  .toc-jumps { display: flex; flex-wrap: wrap; gap: 6px; padding-bottom: 4px; }
+  .tjump {
+    display: inline-flex;
+    align-items: center;
+    gap: 5px;
+    padding: 5px 10px;
+    border-radius: var(--r-full);
+    border: 1px solid color-mix(in srgb, var(--c) 30%, var(--line));
+    background: color-mix(in srgb, var(--c) 7%, var(--surface));
+    color: var(--c);
+    font: inherit;
+    font-size: var(--text-xs);
+    font-weight: 600;
+    cursor: pointer;
+  }
+  .toc-list { list-style: none; margin: 0; padding: 0; display: flex; flex-direction: column; gap: 2px; }
+  .toc-item {
+    width: 100%;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    padding: 7px 8px;
+    border: 0;
+    border-radius: var(--r-sm, 8px);
+    background: none;
+    color: var(--ink);
+    font: inherit;
+    font-size: var(--text-sm);
+    text-align: left;
+    cursor: pointer;
+  }
+  .toc-item:hover { background: var(--surface-2); }
+  .toc-n {
+    width: 22px;
+    height: 22px;
+    flex: none;
+    border-radius: 50%;
+    display: grid;
+    place-items: center;
+    font-size: var(--text-xs);
+    font-weight: 700;
+    background: var(--surface-2);
+    color: var(--ink-3);
+  }
+  .toc-item.opened .toc-n { background: var(--c); color: #fff; }
+  .toc-tags { display: inline-flex; gap: 4px; flex: none; }
+  .toc-tags span {
+    font-size: 10px;
+    font-weight: 650;
+    color: var(--ink-3);
+    padding: 2px 5px;
+    border-radius: 5px;
+    background: var(--surface-2);
+  }
+  .lesson-nav { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: var(--sp-2); margin-top: var(--sp-2); }
+  .lnav { display: flex; flex-direction: column; gap: 4px; padding: var(--sp-3); border-radius: var(--r-md); text-decoration: none; color: var(--ink); font-size: var(--text-xs); }
+  .lnav.next { text-align: right; align-items: flex-end; }
+  .lnav-dir { display: inline-flex; align-items: center; gap: 4px; color: var(--ink-3); font-weight: 600; }
+  .lnav strong { font-size: var(--text-sm); line-height: 1.3; }
 </style>

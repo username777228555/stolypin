@@ -62,6 +62,12 @@
     border: 1px solid var(--line);
     box-shadow: var(--shadow-3);
   }
+  :global([data-winter='gzhel']) .inner {
+    border-color: color-mix(in srgb, var(--winter-orn-1) 32%, var(--line));
+  }
+  :global([data-winter='khokhloma']) .inner {
+    border-color: color-mix(in srgb, var(--winter-orn-1) 42%, var(--line));
+  }
   .pill {
     position: absolute;
     top: 6px;

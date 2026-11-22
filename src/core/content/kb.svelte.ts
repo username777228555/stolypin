@@ -299,6 +299,7 @@ class KnowledgeBase {
   cultureIn = (period: string) => this.culture.filter((c) => c.period === period);
   termsIn = (period: string) => this.terms.filter((t) => t.periods?.includes(period));
   quizzesIn = (period: string) => this.quizzes.filter((q) => q.period === period);
+  lessonsIn = (period: string) => this.lessons.filter((l) => l.period === period);
 
   /** Heads of the Russian state and regents (no ministers, patriarchs or foreign monarchs), oldest first. */
   rulers(): Reign[] {

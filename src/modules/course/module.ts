@@ -1,4 +1,4 @@
-import { BookOpen } from '@lucide/svelte';
+import { BookOpen, Scale } from '@lucide/svelte';
 import { defineModule } from '$lib/core/define-module';
 
 /** «Курс»: lessons that teach a topic (text + questions while reading + spaced reviews), see CoursePage. */
@@ -7,10 +7,12 @@ export default defineModule({
   title: 'Курс',
   routes: [
     { path: '/course', tab: 'explore', component: () => import('./CoursePage.svelte') },
+    { path: '/course/debates', tab: 'explore', component: () => import('./DebatesPage.svelte') },
     { path: '/lesson/:id', tab: 'explore', component: () => import('./LessonPage.svelte') },
     { path: '/lesson/:id/dates', tab: 'explore', component: () => import('./DatesPage.svelte') },
   ],
   entries: [
     { hub: 'explore', title: 'Курс', description: 'Уроки по эпохам: объяснение, вопросы, повторение', icon: BookOpen, href: '/course', order: 1, tint: '#7c1d2b' },
+    { hub: 'explore', title: 'Споры историков', description: 'Позиции и работы для эссе: конспект и тренировка', icon: Scale, href: '/course/debates', order: 2, tint: '#b5842c' },
   ],
 });

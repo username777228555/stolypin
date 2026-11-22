@@ -39,7 +39,7 @@
     top: 0;
     z-index: 20;
     margin: 0 calc(-1 * var(--page-x));
-    padding: calc(var(--safe-top) + var(--sp-2)) var(--page-x) var(--sp-2);
+    padding: calc(var(--safe-top) + var(--sp-2) + var(--winter-top-pad, 0px)) var(--page-x) var(--sp-2);
     background: linear-gradient(var(--bg) 70%, color-mix(in srgb, var(--bg) 0%, transparent));
   }
   .bar { display: flex; align-items: center; gap: var(--sp-3); min-height: var(--header-h); }

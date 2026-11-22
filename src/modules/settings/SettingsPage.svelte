@@ -139,11 +139,40 @@
     </button>
   </Card>
 
-  <section class="stack">
+  <section class="stack section">
     <h2 class="eyebrow">Оформление</h2>
     <Card padding="md">
       <div class="stack inner">
-        <div class="field"><span>Тема</span><Segmented bind:value={settings.theme} options={[{ value: 'system', label: 'Как в системе' }, { value: 'light', label: 'Пергамент' }, { value: 'dark', label: 'Ночь' }]} /></div>
+        <div class="field"><span>Тема</span><Segmented bind:value={settings.theme} options={[{ value: 'system', label: 'Авто' }, { value: 'light', label: 'Пергамент' }, { value: 'dark', label: 'Ночь' }]} /></div>
+        <div class="field">
+          <span>Новогоднее оформление</span>
+          <div class="winter-grid">
+            <button type="button" class="wcard" class:on={settings.winter === 'gzhel'} onclick={() => (settings.winter = 'gzhel')}>
+              <span class="wprev gzhel" style:background-image="url('./assets/winter/gzhel-pattern.svg')"></span>
+              <strong>Гжель</strong>
+              <small>фарфор</small>
+            </button>
+            <button type="button" class="wcard" class:on={settings.winter === 'khokhloma'} onclick={() => (settings.winter = 'khokhloma')}>
+              <span class="wprev khokhloma" style:background-image="url('./assets/winter/khokhloma-pattern.svg')"></span>
+              <strong>Хохлома</strong>
+              <small>лак и золото</small>
+            </button>
+            <button type="button" class="wcard" class:on={settings.winter === 'auto'} onclick={() => (settings.winter = 'auto')}>
+              <span class="wprev auto">
+                <i class="half g" style:background-image="url('./assets/winter/gzhel-pattern.svg')"></i>
+                <i class="half k" style:background-image="url('./assets/winter/khokhloma-pattern.svg')"></i>
+              </span>
+              <strong>Авто</strong>
+              <small>с 15 нояб.</small>
+            </button>
+            <button type="button" class="wcard" class:on={settings.winter === 'off'} onclick={() => (settings.winter = 'off')}>
+              <span class="wprev off"></span>
+              <strong>Выкл</strong>
+              <small>обычная</small>
+            </button>
+          </div>
+          <small class="hint">По умолчанию включена Гжель. В режиме «Авто» с 15 ноября по 20 января: Гжель днём, Хохлома ночью</small>
+        </div>
         <div class="field">
           <span>Акцент</span>
           <div class="swatches">
@@ -251,6 +280,40 @@
   .inner { --gap: var(--sp-4); }
   .field { display: flex; flex-direction: column; gap: var(--sp-2); }
   .field > span, .line > span { font-weight: 600; font-size: var(--text-sm); }
+  .field .hint { font-size: var(--text-xs); color: var(--ink-3); line-height: 1.4; }
+  .winter-grid { display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); gap: var(--sp-2); }
+  .wcard {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 3px;
+    padding: 6px 4px 8px;
+    border-radius: var(--r-md);
+    border: 1.5px solid var(--line);
+    background: var(--surface);
+    cursor: pointer;
+    transition: border-color var(--dur-2), transform var(--dur-1), background-color var(--dur-2);
+  }
+  .wcard:active { transform: scale(0.96); }
+  .wcard.on { border-color: var(--accent); background: color-mix(in srgb, var(--accent) 11%, var(--surface)); }
+  .wcard strong { font-size: var(--text-xs); font-weight: 650; color: var(--ink); line-height: 1.2; margin-top: 2px; }
+  .wcard small { font-size: 10px; color: var(--ink-3); line-height: 1.1; white-space: nowrap; }
+  .wprev {
+    position: relative;
+    width: 100%;
+    height: 36px;
+    border-radius: calc(var(--r-md) - 5px);
+    overflow: hidden;
+    border: 1px solid color-mix(in srgb, var(--line-strong) 55%, transparent);
+    display: block;
+  }
+  .wprev.gzhel { background-color: #f6f9fe; background-size: 74px 74px; background-position: center; }
+  .wprev.khokhloma { background-color: #0c0907; background-size: 76px 76px; background-position: center; }
+  .wprev.off { background: linear-gradient(135deg, #f3ecdf 50%, #1c1610 50%); }
+  .wprev.auto { display: grid; grid-template-columns: 1fr 1fr; }
+  .wprev.auto .half { display: block; height: 100%; }
+  .wprev.auto .g { background-color: #f6f9fe; background-size: 64px 64px; background-position: center; }
+  .wprev.auto .k { background-color: #0c0907; background-size: 66px 66px; background-position: center; }
   .line { display: flex; align-items: center; gap: var(--sp-3); cursor: pointer; }
   .line small { display: block; font-weight: 400; color: var(--ink-3); font-size: var(--text-xs); }
   .swatches { display: grid; grid-template-columns: repeat(4, 1fr); gap: var(--sp-2); }

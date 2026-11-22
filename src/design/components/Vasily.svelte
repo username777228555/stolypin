@@ -8,8 +8,8 @@
    * edge; the picture is wide.
    */
   export type VasilyPose = 'book' | 'wave' | 'cheer' | 'chin' | 'cross' | 'wand' | 'fold' | 'cheeks' | 'orb' | 'spear' | 'lie';
-  /** On the head: laurel wreath (default), Monomakh's cap, a bogatyr helmet, a nightcap or nothing. */
-  export type VasilyHat = 'wreath' | 'crown' | 'helmet' | 'nightcap' | 'none';
+  /** On the head: laurel wreath (default), Monomakh's cap, a bogatyr helmet, a nightcap, a Russian winter boyar hat or nothing. */
+  export type VasilyHat = 'wreath' | 'crown' | 'helmet' | 'nightcap' | 'boyar' | 'none';
 
   export interface ViewBox { x: number; y: number; w: number; h: number }
   /** The drawing's frame for a pose (shared with scenes that draw props in Vasily's coordinates). */
@@ -365,6 +365,40 @@
   <circle cx="790" cy="314" r="30" fill={WHITE} stroke={INK} stroke-width="7" />
 {/snippet}
 
+{#snippet boyar()}
+  <!-- Русская новогодняя боярская шапка: симметричный бархатный купол, золотой орнамент и белая меховая опушка -->
+  <!-- Аккуратно загнутый хвостик колпака за правой стороной купола -->
+  <path d="M 556 144 C 606 146 644 170 660 212 C 638 222 612 222 592 212 Z" fill="url(#{id}-boyar)" stroke={INK} stroke-width="8" />
+  <!-- Симметричная высокая тулья ровно по центру головы (x = 512) -->
+  <path d="M 408 286 C 404 196 446 132 512 126 C 578 132 620 196 616 286 Z" fill="url(#{id}-boyar)" stroke={INK} stroke-width="8" />
+  <!-- Золотая тесьма вдоль края опушки с бусинами -->
+  <path d="M 414 268 Q 512 250 610 268" fill="none" stroke="url(#{id}-gold)" stroke-width="8" />
+  <path d="M 416 268 Q 512 250 608 268" fill="none" stroke={INK} stroke-width="2" opacity=".35" />
+  {#each [[442, 263], [476, 259], [512, 258], [548, 259], [582, 263]] as [bx, by] (`b${bx}`)}
+    <circle cx={bx} cy={by} r="3.2" fill="#fff3c4" opacity=".9" />
+  {/each}
+  <!-- Симметричные золотые завитки (зеркально от оси x = 512) -->
+  {#each [false, true] as flip (flip)}
+    <g transform={flip ? 'matrix(-1 0 0 1 1024 0)' : undefined}>
+      <path d="M 438 244 C 444 212 468 194 486 206 C 494 212 490 226 478 226 C 470 226 468 218 474 214" fill="none" stroke="url(#{id}-gold)" stroke-width="6.5" stroke-linecap="round" />
+      <path d="M 454 182 C 470 162 490 154 503 164" fill="none" stroke="url(#{id}-gold)" stroke-width="5.5" stroke-linecap="round" />
+      <circle cx="442" cy="210" r="6" fill="url(#{id}-gold)" stroke={INK} stroke-width="3" />
+      <circle cx="462" cy="240" r="4" fill="#fff2bf" opacity=".88" />
+    </g>
+  {/each}
+  <!-- Центральная восьмилучевая золотая звезда с самоцветом -->
+  <path d="M 494 178 L 512 189 L 530 178 L 519 196 L 530 214 L 512 203 L 494 214 L 505 196 Z" fill="url(#{id}-gold)" stroke={INK} stroke-width="3.5" opacity=".92" />
+  <path d="M 512 162 L 520 187 L 546 196 L 520 205 L 512 230 L 504 205 L 478 196 L 504 187 Z" fill="url(#{id}-gold)" stroke={INK} stroke-width="4.5" />
+  <circle cx="512" cy="196" r="10.5" fill="var(--winter-gem, #ef3b2d)" stroke={INK} stroke-width="4" />
+  <circle cx="508.5" cy="192.5" r="3.2" fill="#fff" opacity=".88" />
+  <!-- Пушистый снежный помпон на кончике колпака -->
+  <circle cx="662" cy="216" r="24" fill={WHITE} stroke={INK} stroke-width="7.5" />
+  <circle cx="655" cy="208" r="6" fill="#fff" opacity=".85" />
+  <!-- Ровная симметричная белая меховая опушка -->
+  <path d="M 396 292 C 392 272 410 264 434 268 C 458 260 484 266 512 262 C 540 266 566 260 590 268 C 614 264 632 272 628 292 C 632 308 618 318 594 316 C 570 322 542 316 512 318 C 482 316 454 322 430 316 C 406 318 392 308 396 292 Z" fill={WHITE} stroke={INK} stroke-width="8" />
+  <path d="M 424 292 q 10 -8 20 0 M 464 300 q 10 -8 20 0 M 502 290 q 10 -8 20 0 M 540 300 q 10 -8 20 0 M 580 292 q 10 -8 20 0" fill="none" stroke="#d5dde8" stroke-width="5" />
+{/snippet}
+
 {#snippet sideFace()}
   <path d="M 300 420 Q 314 428 328 424 M 300 446 Q 316 452 330 446" fill="none" stroke={FUR_D} stroke-width="6" />
   <!-- caracal marks: a tear line from the inner corner of the eye and a dark crescent on the whisker pad -->
@@ -578,7 +612,7 @@
       <path d="M {x! - 7} 246 Q {x} 240 {x! + 7} 246 Q {x! + 4} {246 + h! * 0.6} {x} {246 + h!} Q {x! - 4} {246 + h! * 0.6} {x! - 7} 246 Z" fill="#8a522c" />
     {/each}
 
-    {#if hat === 'crown'}{@render crown()}{:else if hat === 'helmet'}{@render helmet()}{:else if hat === 'nightcap'}{@render nightcap()}{/if}
+    {#if hat === 'crown'}{@render crown()}{:else if hat === 'helmet'}{@render helmet()}{:else if hat === 'nightcap'}{@render nightcap()}{:else if hat === 'boyar'}{@render boyar()}{/if}
 
     <g class="brow">{@render brow()}</g>
     <g transform="matrix(-1 0 0 1 1024 0)"><g class="brow brow-r">{@render brow()}</g></g>
@@ -804,6 +838,9 @@
       </linearGradient>
       <linearGradient id="{id}-sable" x1="0" y1="0" x2="0" y2="1">
         <stop offset="0" stop-color="#8a5c3c" /><stop offset="1" stop-color="#5a3824" />
+      </linearGradient>
+      <linearGradient id="{id}-boyar" x1="0" y1="0" x2="1" y2="1">
+        <stop offset="0" stop-color="var(--winter-hat-1, #c4282e)" /><stop offset="1" stop-color="var(--winter-hat-2, #7b151a)" />
       </linearGradient>
       <clipPath id="{id}-tail"><path d={TAIL} /></clipPath>
       {#each EYES as cx, i (cx)}

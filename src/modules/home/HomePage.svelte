@@ -2,6 +2,7 @@
   import { onMount } from 'svelte';
   import { Search, Flame, Layers, Swords, UserSearch, Crosshair, ChartGantt, Network, Sparkles, BookOpen, ArrowRight, CalendarDays, Crown, CalendarCheck, Download, X, RotateCcw, Target, Feather } from '@lucide/svelte';
   import Emblem from '$lib/design/components/Emblem.svelte';
+  import WinterHeroArt from '$lib/design/components/WinterHeroArt.svelte';
   import IconButton from '$lib/design/components/IconButton.svelte';
   import ProgressRing from '$lib/design/components/ProgressRing.svelte';
   import Button from '$lib/design/components/Button.svelte';
@@ -16,7 +17,7 @@
   import ImageCredit from '$lib/components/ImageCredit.svelte';
   import { kb } from '$lib/core/content/kb.svelte';
   import { progress, currentRank } from '$lib/core/progress.svelte';
-  import { settings, motionOK } from '$lib/core/settings.svelte';
+  import { settings, motionOK, activeWinter } from '$lib/core/settings.svelte';
   import { buildQueue } from '$lib/core/srs';
   import { db, type BookMeta } from '$lib/core/db';
   import { greeting, formatDateLong, pluralN, WORDS, monthGen, formatEventDate, formatSpan } from '$lib/core/utils/format';
@@ -70,6 +71,7 @@
     return dailyPick(now.getDate() % 2 && art.length ? art : events.length ? events : art, 'art');
   });
   const heroCover = $derived(dailyPick(kb.periods.map((p) => kb.periodCover(p)).filter((x): x is string => !!x), 'hero'));
+  const winter = $derived(activeWinter());
   const goal = $derived(progress.today.xp / Math.max(1, settings.dailyGoal));
   const onThisDay = $derived.by(() => {
     void kb.version;
@@ -114,8 +116,14 @@
   {/if}
 
   <section class="hero">
-    {#if heroCover}<img class="hero-art" class:drift={motionOK()} src={heroCover} alt="" aria-hidden="true" />{/if}
-    <div class="hero-bg" aria-hidden="true"></div>
+    {#if winter !== 'off'}
+      <WinterHeroArt {winter} />
+    {:else if heroCover}
+      <img class="hero-art" class:drift={motionOK()} src={heroCover} alt="" aria-hidden="true" />
+      <div class="hero-bg" aria-hidden="true"></div>
+    {:else}
+      <div class="hero-bg" aria-hidden="true"></div>
+    {/if}
     <div class="hero-row">
       <ProgressRing value={goal} size={96} stroke={9} color="#f0cf82" track="rgba(255,255,255,.16)">
         <div class="ring-txt">
@@ -174,6 +182,11 @@
         <div class="row pl"><Feather size={20} /><span class="grow"><strong>Развёрнутый ответ</strong><small>2 задания: причины, последствия, деятельность — как на олимпиаде</small></span><ArrowRight size={16} /></div>
       </Card>
     </div>
+    {#if kb.lessons.length}
+      <div class="plan-foot">
+        <a href="#/course" class="more">Весь курс · {pluralN(kb.lessons.length, WORDS.lesson)} <ArrowRight size={14} /></a>
+      </div>
+    {/if}
   </section>
 
   {#if lastBook}
@@ -264,6 +277,7 @@
 
 <style>
   .plan-list { --gap: var(--sp-2); }
+  .plan-foot { display: flex; justify-content: flex-end; margin-top: var(--sp-2); }
   .pl { gap: var(--sp-3); color: var(--accent); }
   .pl .grow { display: flex; flex-direction: column; color: var(--ink); }
   .pl small { color: var(--ink-3); font-size: var(--text-xs); line-height: 1.3; }
@@ -271,7 +285,7 @@
   .update { display: flex; align-items: center; gap: var(--sp-3); padding: var(--sp-3) var(--sp-3) var(--sp-3) var(--sp-4); margin-bottom: var(--sp-3); border-radius: var(--r-lg); background: var(--success-soft); color: var(--success); border: 1px solid color-mix(in srgb, var(--success) 35%, transparent); }
   .update a { display: flex; flex-direction: column; color: var(--ink); text-decoration: none; }
   .update small { color: var(--ink-3); font-size: var(--text-xs); }
-  .top { display: flex; align-items: center; justify-content: space-between; padding: calc(var(--safe-top) + var(--sp-4)) 0 var(--sp-2); }
+  .top { display: flex; align-items: center; justify-content: space-between; padding: calc(var(--safe-top) + var(--sp-4) + var(--winter-top-pad, 0px)) 0 var(--sp-2); }
   .brand { display: flex; align-items: center; gap: var(--sp-3); }
   .brand strong { display: block; font-size: var(--text-lg); letter-spacing: 0.14em; line-height: 1.1; }
   .greet { margin: var(--sp-4) 0 var(--sp-5); }
@@ -320,14 +334,36 @@
     border-radius: calc(var(--r-xl) - 8px);
     pointer-events: none;
   }
+  /* Гжель: матовый кобальтовый фарфор и плоская 2D зимняя сказка без глянца */
+  :global([data-winter='gzhel']) .hero {
+    background: #153d8f;
+    border: 1.5px solid #2b60c7;
+    box-shadow: 0 8px 22px rgba(15, 42, 98, 0.22);
+  }
+  :global([data-winter='gzhel']) .hero::after {
+    border: 1.5px solid rgba(214, 233, 255, 0.48);
+  }
+  /* Хохлома: матовый чёрный лак, двойная плоская золотая рама и живая 2D роспись */
+  :global([data-winter='khokhloma']) .hero {
+    background: #0e0906;
+    border: 1.5px solid #5c3f18;
+    box-shadow: 0 10px 26px rgba(0, 0, 0, 0.45);
+  }
+  :global([data-winter='khokhloma']) .hero::after {
+    border: 1.5px solid #e6b338;
+    box-shadow: inset 0 0 0 2.5px rgba(217, 45, 32, 0.34);
+  }
+  :global([data-winter]) .hero-row {
+    text-shadow: 0 1px 4px rgba(0, 0, 0, 0.35);
+  }
   .hero-row { position: relative; display: flex; align-items: center; gap: var(--sp-5); }
   .ring-txt { display: flex; flex-direction: column; line-height: 1.05; }
   .ring-txt strong { font-family: var(--font-display); font-size: var(--text-2xl); }
   .ring-txt span { font-size: var(--text-2xs); opacity: 0.75; }
   .hero-info { display: flex; flex-direction: column; gap: 4px; min-width: 0; }
-  .eyebrow.light { color: rgba(255, 240, 210, 0.7); }
+  .eyebrow.light { color: rgba(255, 240, 210, 0.78); }
   .rank { font-family: var(--font-display); font-size: var(--text-xl); line-height: 1.15; }
-  .streak { display: inline-flex; align-items: center; gap: 6px; font-size: var(--text-sm); color: #f0cf82; font-weight: 600; }
+  .streak { display: inline-flex; align-items: center; gap: 6px; font-size: var(--text-sm); color: #f6be3c; font-weight: 600; }
   .hero-actions { position: relative; margin-top: var(--sp-5); }
   :global(.continue) { margin-top: var(--sp-4); }
   .book-ico { width: 40px; height: 40px; border-radius: 12px; display: grid; place-items: center; background: var(--accent-soft); color: var(--accent); flex: 0 0 auto; }

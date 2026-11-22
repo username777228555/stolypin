@@ -6,13 +6,22 @@
     <meta name="theme-color" content="#f3ecdf" />
     <meta name="color-scheme" content="light dark" />
     <title>СТОЛЫПИНЪ — учёба истории</title>
+    <meta name="description" content="Офлайн-приложение для подготовки к олимпиадам по истории России" />
+    <meta property="og:title" content="СТОЛЫПИНЪ — учёба истории" />
+    <meta property="og:description" content="Офлайн-приложение для подготовки к олимпиадам по истории России" />
     <link rel="icon" type="image/svg+xml" href="./favicon.svg" />
     <script>
-      // Apply the saved theme before first paint to avoid a flash.
+      // Apply the saved theme and seasonal winter motif before first paint to avoid a flash.
       try {
         var t = localStorage.getItem('stolypin-theme');
         var dark = t === 'dark' || (t !== 'light' && matchMedia('(prefers-color-scheme: dark)').matches);
         document.documentElement.dataset.theme = dark ? 'dark' : 'light';
+        var w = localStorage.getItem('stolypin-winter') || 'auto';
+        var now = new Date();
+        var m = now.getMonth() + 1, d = now.getDate();
+        var inSeason = (m === 11 && d >= 15) || m === 12 || (m === 1 && d <= 20);
+        var winter = w === 'off' ? '' : (w === 'gzhel' || w === 'khokhloma') ? w : (inSeason ? (dark ? 'khokhloma' : 'gzhel') : '');
+        if (winter) document.documentElement.dataset.winter = winter;
         var a = localStorage.getItem('stolypin-accent');
         if (a && a !== 'crimson') document.documentElement.dataset.accent = a;
       } catch (e) {}
