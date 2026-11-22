@@ -16,6 +16,7 @@
   import TextField from '$lib/design/components/TextField.svelte';
   import { ai, aiProxy, checkAiKey, saveAiKey } from '$lib/core/ai.svelte';
   import type { PlannedReminder } from '$lib/core/reminder-plan';
+  import { GZHEL_BG, KHOKHLOMA_BG } from '$lib/design/winter/patterns';
 
   const ACCENTS: { id: Accent; name: string; color: string }[] = [
     { id: 'crimson', name: 'Кармин', color: '#7c1d2b' },
@@ -148,19 +149,19 @@
           <span>Новогоднее оформление</span>
           <div class="winter-grid">
             <button type="button" class="wcard" class:on={settings.winter === 'gzhel'} onclick={() => (settings.winter = 'gzhel')}>
-              <span class="wprev gzhel" style:background-image="url('./assets/winter/gzhel-pattern.svg')"></span>
+              <span class="wprev gzhel" style:background-image={GZHEL_BG}></span>
               <strong>Гжель</strong>
               <small>фарфор</small>
             </button>
             <button type="button" class="wcard" class:on={settings.winter === 'khokhloma'} onclick={() => (settings.winter = 'khokhloma')}>
-              <span class="wprev khokhloma" style:background-image="url('./assets/winter/khokhloma-pattern.svg')"></span>
+              <span class="wprev khokhloma" style:background-image={KHOKHLOMA_BG}></span>
               <strong>Хохлома</strong>
               <small>лак и золото</small>
             </button>
             <button type="button" class="wcard" class:on={settings.winter === 'auto'} onclick={() => (settings.winter = 'auto')}>
               <span class="wprev auto">
-                <i class="half g" style:background-image="url('./assets/winter/gzhel-pattern.svg')"></i>
-                <i class="half k" style:background-image="url('./assets/winter/khokhloma-pattern.svg')"></i>
+                <i class="half g" style:background-image={GZHEL_BG}></i>
+                <i class="half k" style:background-image={KHOKHLOMA_BG}></i>
               </span>
               <strong>Авто</strong>
               <small>с 15 нояб.</small>

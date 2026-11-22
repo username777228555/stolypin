@@ -5,6 +5,7 @@
    * 2) Спокойные плоские 6-лучевые резные снежинки за карточками.
    */
   import { activeWinter, motionOK } from '$lib/core/settings.svelte';
+  import { GZHEL_BG, KHOKHLOMA_BG } from '$lib/design/winter/patterns';
 
   interface Flake {
     x: number;
@@ -27,15 +28,13 @@
   ];
 
   const winter = $derived(activeWinter());
-  const GZHEL_PATTERN = './assets/winter/gzhel-pattern.svg';
-  const KHOKHLOMA_PATTERN = './assets/winter/khokhloma-pattern.svg';
 </script>
 
 {#if winter !== 'off'}
   <!-- Плоский бесшовный векторный фон по всему экрану -->
   <div
     class="wallpaper {winter}"
-    style:--pat="url('{winter === 'khokhloma' ? KHOKHLOMA_PATTERN : GZHEL_PATTERN}')"
+    style:background-image={winter === 'khokhloma' ? KHOKHLOMA_BG : GZHEL_BG}
     aria-hidden="true"
   ></div>
 
@@ -70,25 +69,24 @@
     inset: 0;
     pointer-events: none;
     z-index: 0;
-    background-image: var(--pat);
     background-repeat: repeat;
   }
   /* Гжель: плоский 2D кобальтовый узор на матовом фарфоре */
   .wallpaper.gzhel {
     background-size: 256px 256px;
-    opacity: 0.115;
+    opacity: 0.15;
   }
   :global([data-theme='dark']) .wallpaper.gzhel {
-    opacity: 0.17;
+    opacity: 0.22;
     filter: brightness(2.5) saturate(0.75);
   }
   /* Хохлома: непрерывная плоская 2D хохломская вязь с ягодами и травкой на чёрном лаке / бересте */
   .wallpaper.khokhloma {
     background-size: 264px 264px;
-    opacity: 0.16;
+    opacity: 0.18;
   }
   :global([data-theme='dark']) .wallpaper.khokhloma {
-    opacity: 0.31;
+    opacity: 0.33;
   }
 
   .snow {
