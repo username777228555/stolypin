@@ -14,7 +14,12 @@
   const cover = $derived(kb.periodCover(period));
   const counts = $derived.by(() => {
     void kb.version;
-    return { events: kb.eventsIn(period.id).length, persons: kb.personsIn(period.id).length, culture: kb.cultureIn(period.id).length };
+    return {
+      lessons: kb.lessonsIn(period.id).length,
+      events: kb.eventsIn(period.id).length,
+      persons: kb.personsIn(period.id).length,
+      culture: kb.cultureIn(period.id).length,
+    };
   });
   const numeral = $derived(toRoman(century(Math.max(period.from, 1) + 1)));
 </script>
@@ -52,7 +57,7 @@
     <strong>{period.title}</strong>
     {#if variant === 'wide'}
       <span class="desc clamp-2">{period.description}</span>
-      <span class="counts">{pluralN(counts.events, WORDS.event)} · {pluralN(counts.persons, WORDS.person)} · {pluralN(counts.culture, WORDS.monument)}</span>
+      <span class="counts">{#if counts.lessons}{pluralN(counts.lessons, WORDS.lesson)} · {/if}{pluralN(counts.events, WORDS.event)} · {pluralN(counts.persons, WORDS.person)} · {pluralN(counts.culture, WORDS.monument)}</span>
     {/if}
   </div>
 </button>

@@ -2,10 +2,11 @@ import MiniSearch from 'minisearch';
 import { kb } from './content/kb.svelte';
 import { normalize, stemRu } from './utils/text';
 import { formatEventDate, formatLife } from './utils/format';
+import { lessonSearchText } from '$lib/modules/course/filter';
 
 export interface SearchDoc {
   id: string;
-  kind: 'event' | 'person' | 'culture' | 'term' | 'source';
+  kind: 'lesson' | 'event' | 'person' | 'culture' | 'term' | 'source';
   title: string;
   sub: string;
   text: string;
@@ -22,6 +23,11 @@ const processTerm = (t: string) => {
 
 function build(): MiniSearch<SearchDoc> {
   const docs: SearchDoc[] = [];
+  for (const l of kb.lessons) {
+    const p = kb.periodById.get(l.period);
+    const sub = [p?.short, `урок ${l.order}`, l.minutes ? `${l.minutes} мин` : ''].filter(Boolean).join(' · ');
+    docs.push({ id: l.id, kind: 'lesson', title: l.title, sub, text: lessonSearchText(l), period: l.period });
+  }
   for (const e of kb.events) docs.push({ id: e.id, kind: 'event', title: e.title, sub: formatEventDate(e), text: `${e.summary} ${e.place ?? ''} ${e.details ?? ''}`, period: e.period });
   for (const p of kb.persons) docs.push({ id: p.id, kind: 'person', title: p.name, sub: [p.role, formatLife(p.born, p.died, p.circa)].filter(Boolean).join(' · '), text: `${p.short ?? ''} ${(p.aliases ?? []).join(' ')} ${p.summary}`, period: p.periods[0] });
   for (const c of kb.culture) docs.push({ id: c.id, kind: 'culture', title: c.title, sub: String(c.year), text: `${c.summary} ${c.authorName ?? ''} ${(c.features ?? []).join(' ')}`, period: c.period });

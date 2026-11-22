@@ -197,6 +197,16 @@ input, textarea, select {
   transform: rotate(45deg);
   opacity: 0.75;
 }
+/* В новогодней теме ромб превращается в плоскую резную восьмилучевую звёздочку. */
+[data-winter] .section-title h2::after {
+  width: 11px;
+  height: 11px;
+  vertical-align: 0.08em;
+  transform: none;
+  background: var(--winter-orn-1, var(--gold));
+  clip-path: polygon(50% 0%, 62% 38%, 100% 50%, 62% 62%, 50% 100%, 38% 62%, 0% 50%, 38% 38%);
+  opacity: 0.9;
+}
 .hscroll {
   display: flex;
   gap: var(--sp-3);

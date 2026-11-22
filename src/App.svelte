@@ -22,6 +22,7 @@
   import { ArrowLeft } from '@lucide/svelte';
   import { returnPoint, awayFromReturn, comeBack, dropReturnIfBack } from '$lib/core/return-point.svelte';
   import NotFound from '$lib/app/NotFound.svelte';
+  import WinterBackdrop from '$lib/design/components/WinterBackdrop.svelte';
 
   let booted = $state(false);
   let failure = $state<string | null>(null);
@@ -61,6 +62,7 @@
     try {
       localStorage.setItem('stolypin-theme', settings.theme);
       localStorage.setItem('stolypin-accent', settings.accent);
+      localStorage.setItem('stolypin-winter', settings.winter);
     } catch {
       /* private mode */
     }
@@ -135,10 +137,11 @@
   <SheetHost />
   {#if ui.tour || !settings.onboarded}<Onboarding onclose={() => (ui.tour = false)} />{/if}
 {/if}
+<WinterBackdrop />
 <Overlays />
 
 <style>
-  .view { min-height: 100dvh; }
+  .view { position: relative; z-index: 1; min-height: 100dvh; }
   .return-pad :global(.page) { padding-bottom: calc(var(--tabbar-h) + var(--safe-bottom) + var(--sp-8) + 52px); }
   .return {
     position: fixed;

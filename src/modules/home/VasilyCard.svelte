@@ -9,7 +9,8 @@
   import Vasily, { type VasilyMood } from '$lib/design/components/Vasily.svelte';
   import Button from '$lib/design/components/Button.svelte';
   import { progress } from '$lib/core/progress.svelte';
-  import { settings } from '$lib/core/settings.svelte';
+  import { settings, activeWinter } from '$lib/core/settings.svelte';
+  import { daysUntilNewYear } from '$lib/core/season';
   import { enableReminders, reminderToast } from '$lib/core/reminders';
   import { pluralN, WORDS, todayKey } from '$lib/core/utils/format';
 
@@ -28,11 +29,28 @@
     return Math.round((new Date(`${todayKey()}T00:00:00`).getTime() - new Date(`${last}T00:00:00`).getTime()) / 86_400_000);
   });
 
+  const winter = $derived(activeWinter());
+  const toNy = daysUntilNewYear();
+
   const state = $derived.by<{ mood: VasilyMood; say: string }>(() => {
     if (hour >= 23 || hour < 6) return { mood: 'sleep', say: `Тсс… я сплю.${due ? ` Утром нас ${verb(due)} ${pluralN(due, WORDS.card)}.` : ' Утром почитаем.'}` };
-    if (xp >= goal) return { mood: 'happy', say: 'Я сыт и доволен — цель дня выполнена! Можно отдохнуть или пройти ещё урок.' };
+    if (xp >= goal) {
+      return {
+        mood: 'happy',
+        say: winter !== 'off'
+          ? 'Я сыт и в зимнем настроении — цель дня выполнена! Можно отдохнуть или пройти ещё урок.'
+          : 'Я сыт и доволен — цель дня выполнена! Можно отдохнуть или пройти ещё урок.',
+      };
+    }
     if (xp > 0) return { mood: 'smile', say: `Хорошее начало! До цели дня — ещё ${pluralN(goal - xp, WORDS.point)} опыта.` };
-    if (gap === undefined) return { mood: 'smile', say: 'Начнём с первого урока? Я буду рядом.' };
+    if (gap === undefined) {
+      if (winter !== 'off') {
+        if (toNy === 0) return { mood: 'happy', say: 'С Новым годом! Начнём год с первого урока? Я буду рядом.' };
+        if (toNy !== null) return { mood: 'smile', say: `До Нового года ${pluralN(toNy, WORDS.day)}! Согреемся историей — начнём с первого урока?` };
+        return { mood: 'smile', say: 'За окном зима, а у нас уютно — начнём с первого урока? Я буду рядом.' };
+      }
+      return { mood: 'smile', say: 'Начнём с первого урока? Я буду рядом.' };
+    }
     if (gap <= 1) {
       const streak = progress.streak ? `Серия — ${pluralN(progress.streak, WORDS.day)}. ` : '';
       return { mood: 'idle', say: `${streak}${due ? `${pluralN(due, WORDS.card)} ${verb(due)} повторения — покормите меня знаниями?` : 'Продолжим? План на сегодня — чуть ниже.'}` };
@@ -48,7 +66,7 @@
 </script>
 
 <section class="vcard">
-  <Vasily mood={state.mood} size={92} interactive />
+  <Vasily mood={state.mood} hat={winter !== 'off' ? 'boyar' : 'wreath'} size={92} interactive />
   <div class="talk">
     <p class="bubble">{state.say}</p>
     <div class="fed" title="Сытость — доля цели дня">
@@ -98,7 +116,14 @@
   .bar { flex: 1; height: 6px; border-radius: var(--r-full); background: var(--surface-3); box-shadow: inset 0 0 0 1px var(--line); overflow: hidden; }
   .bar i { display: block; height: 100%; border-radius: inherit; background: linear-gradient(90deg, var(--gold), #f0cf82); transition: width var(--dur-4) var(--ease-out); }
   .fed small { min-width: 30px; text-align: right; font-size: var(--text-2xs); color: var(--ink-3); }
+  :global([data-theme='dark'][data-winter='khokhloma']) .fed small {
+    color: var(--ink-2);
+    text-shadow: 0 1px 6px rgba(0, 0, 0, 0.9);
+  }
   .offer { display: flex; flex-direction: column; gap: 6px; padding: var(--sp-2) var(--sp-3); border-radius: var(--r-md); background: var(--accent-soft); }
+  :global([data-winter]) .offer {
+    border: 1px solid var(--line);
+  }
   .offer small { font-size: var(--text-xs); color: var(--ink-2); }
   .offer .row { display: flex; gap: 6px; }
 </style>

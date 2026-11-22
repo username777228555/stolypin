@@ -1,5 +1,5 @@
 <script lang="ts">
-  import { Search, Clock, X } from '@lucide/svelte';
+  import { Search, Clock, X, BookOpen, ChevronRight } from '@lucide/svelte';
   import PageHeader from '$lib/design/components/PageHeader.svelte';
   import TextField from '$lib/design/components/TextField.svelte';
   import Card from '$lib/design/components/Card.svelte';
@@ -13,8 +13,8 @@
   let recent = $state<string[]>(JSON.parse(localStorage.getItem('stolypin-recent') ?? '[]'));
   const results = $derived(q.trim().length >= 2 ? search(q) : []);
   const groups = $derived.by(() => {
-    const order: SearchDoc['kind'][] = ['person', 'event', 'culture', 'term', 'source'];
-    const names: Record<string, string> = { person: 'Персоналии', event: 'События', culture: 'Культура', term: 'Термины', source: 'Источники' };
+    const order: SearchDoc['kind'][] = ['lesson', 'person', 'event', 'culture', 'term', 'source'];
+    const names: Record<string, string> = { lesson: 'Уроки курса', person: 'Персоналии', event: 'События', culture: 'Культура', term: 'Термины', source: 'Источники' };
     return order.map((k) => ({ k, name: names[k]!, items: results.filter((r) => r.kind === k) })).filter((g) => g.items.length);
   });
 
@@ -32,7 +32,7 @@
 
 <div class="page">
   <PageHeader title="Поиск" back="/" />
-  <TextField bind:value={q} placeholder="Событие, человек, термин, памятник…" icon={Search} autofocus />
+  <TextField bind:value={q} placeholder="Урок, событие, человек, термин…" icon={Search} autofocus />
 
   {#if !q.trim()}
     {#if recent.length}
@@ -46,16 +46,30 @@
         </div>
       </div>
     {/if}
-    <p class="muted tip">Поиск понимает русские словоформы: «реформы Петра», «крестьянская война», «Смута».</p>
+    <p class="muted tip">Поиск ищет по урокам курса и всей базе знаний, понимает русские словоформы: «денежные реформы», «реформы Петра», «Смута».</p>
   {:else if groups.length}
     {#each groups as g (g.k)}
       <section class="grp">
         <h2 class="eyebrow">{g.name} · {g.items.length}</h2>
         <Card padding="sm">
-          {#each g.items as r (r.id)}
-            {@const e = kb.get(r.id)}
-            {#if e}<EntityRow entity={e} compact />{/if}
-          {/each}
+          {#if g.k === 'lesson'}
+            {#each g.items as r (r.id)}
+              {@const period = r.period ? kb.periodById.get(r.period) : undefined}
+              <a class="lesson-row" href="#/lesson/{r.id}" style:--c={period?.color ?? 'var(--accent)'}>
+                <span class="l-ico"><BookOpen size={17} /></span>
+                <span class="grow l-txt">
+                  <strong>{r.title}</strong>
+                  {#if r.sub}<small class="muted">{r.sub}</small>{/if}
+                </span>
+                <ChevronRight size={16} class="chev" />
+              </a>
+            {/each}
+          {:else}
+            {#each g.items as r (r.id)}
+              {@const e = kb.get(r.id)}
+              {#if e}<EntityRow entity={e} compact />{/if}
+            {/each}
+          {/if}
         </Card>
       </section>
     {/each}
@@ -70,4 +84,11 @@
   .rq.clear { color: var(--ink-3); border-style: dashed; }
   .tip { margin-top: var(--sp-5); font-size: var(--text-sm); }
   .grp { margin-top: var(--sp-5); display: flex; flex-direction: column; gap: var(--sp-2); }
+  .lesson-row { display: flex; align-items: center; gap: var(--sp-3); padding: 10px 8px; border-radius: var(--r-sm); text-decoration: none; color: var(--ink); transition: background var(--dur-1); }
+  .lesson-row:hover { background: var(--surface-2); }
+  .l-ico { width: 34px; height: 34px; flex: none; border-radius: 10px; display: grid; place-items: center; background: color-mix(in srgb, var(--c) 14%, transparent); color: var(--c); }
+  .l-txt { display: flex; flex-direction: column; gap: 2px; min-width: 0; font-size: var(--text-sm); }
+  .l-txt strong { line-height: 1.3; }
+  .l-txt small { font-size: var(--text-xs); }
+  .lesson-row :global(.chev) { flex: none; color: var(--ink-3); }
 </style>

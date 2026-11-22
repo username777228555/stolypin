@@ -81,6 +81,7 @@
     <EmptyState icon={Library} title="Полка пуста" text="Добавьте купленные книги и материалы курсов: EPUB, FB2, MOBI/AZW3, PDF, CBZ или TXT. Файлы хранятся только на этом устройстве.">
       <div class="empty-btns">
         <Button icon={BookOpen} onclick={add}>Добавить книгу</Button>
+        <Button variant="secondary" icon={Library} href="/reading">Что читать по эпохам</Button>
       </div>
     </EmptyState>
   {/if}

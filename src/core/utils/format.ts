@@ -98,6 +98,10 @@ export const WORDS = {
   map: ['карта', 'карты', 'карт'],
   pack: ['пакет', 'пакета', 'пакетов'],
   reminder: ['напоминание', 'напоминания', 'напоминаний'],
+  section: ['раздел', 'раздела', 'разделов'],
+  document: ['документ', 'документа', 'документов'],
+  debate: ['спор', 'спора', 'споров'],
+  position: ['позиция', 'позиции', 'позиций'],
 } satisfies Record<string, [string, string, string]>;
 
 /** Interval in days → short human label ("10 мин", "3 дн", "2 мес"). */
