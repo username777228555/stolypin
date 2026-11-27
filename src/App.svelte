@@ -23,12 +23,21 @@
   import { returnPoint, awayFromReturn, comeBack, dropReturnIfBack } from '$lib/core/return-point.svelte';
   import NotFound from '$lib/app/NotFound.svelte';
   import WinterBackdrop from '$lib/design/components/WinterBackdrop.svelte';
+  import {
+    formatRouteError,
+    installChunkErrorRecovery,
+    loadRouteWithRetry,
+    triggerSafeReload,
+  } from '$lib/core/route-loader';
 
   let booted = $state(false);
   let failure = $state<string | null>(null);
+  let retryNonce = $state(0);
 
-  onMount(async () => {
-    try {
+  onMount(() => {
+    const uninstallChunkRecovery = installChunkErrorRecovery();
+    void (async () => {
+      try {
       // A reinstall: Android has already put back the snapshot from the Google account (core/autobackup.ts).
       const restored = await restoreFromGoogle();
       await loadSettings();
@@ -48,10 +57,12 @@
         // A new install has no notification permission yet: ask again so Vasily's reminders keep coming.
         if (settings.remindAt) void enableReminders(settings.remindAt);
       }
-    } catch (e) {
-      console.error(e);
-      failure = e instanceof Error ? e.message : String(e);
-    }
+      } catch (e) {
+        console.error(e);
+        failure = e instanceof Error ? e.message : String(e);
+      }
+    })();
+    return uninstallChunkRecovery;
   });
 
   $effect(() => {
@@ -106,6 +117,17 @@
 
   const dx = $derived(router.direction === 'back' ? -28 : router.direction === 'forward' ? 28 : 0);
   const immersive = $derived(!!router.route?.immersive);
+  const routeLoad = $derived.by(() => {
+    void router.seq;
+    void retryNonce;
+    const active = router.route;
+    if (!active) return null;
+    return loadRouteWithRetry(() => active.component(), {
+      retries: 2,
+      baseDelayMs: 250,
+      onStaleChunk: triggerSafeReload,
+    });
+  });
 </script>
 
 <svelte:document onclick={interceptLinks} />
@@ -113,15 +135,23 @@
 {#if !booted}
   <Splash error={failure} />
 {:else}
-  {#key router.seq}
+  {#key `${router.seq}:${retryNonce}`}
     <main class="view" class:return-pad={away} in:fly={{ x: motionOK() ? dx : 0, y: dx === 0 && motionOK() ? 12 : 0, duration: 300, easing: cubicOut }}>
-      {#if router.route}
-        {#await router.route.component()}
+      {#if routeLoad}
+        {#await routeLoad}
           <div class="loading" in:fade={{ delay: 150 }}><span class="dot"></span></div>
         {:then mod}
           <mod.default />
         {:catch err}
-          <NotFound message={String(err)} />
+          {@const info = formatRouteError(err)}
+          <NotFound
+            title={info.title}
+            message={info.message}
+            canReload={info.canReload}
+            onretry={() => {
+              retryNonce++;
+            }}
+          />
         {/await}
       {:else}
         <NotFound />
