@@ -4,7 +4,7 @@
    * Supports `?period=<id>` deep-linking from PeriodPage, epoch chips, status filtering, and collapsible groups.
    */
   import { onMount, tick } from 'svelte';
-  import { BookOpen, RotateCcw, CircleCheck, Circle, Play, ChevronDown, Sparkles, Scale, ArrowRight } from '@lucide/svelte';
+  import { BookOpen, RotateCcw, CircleCheck, Circle, Play, ChevronDown, Sparkles, Scale, ArrowRight, Route, ScrollText, Compass } from '@lucide/svelte';
   import PageHeader from '$lib/design/components/PageHeader.svelte';
   import Card from '$lib/design/components/Card.svelte';
   import Badge from '$lib/design/components/Badge.svelte';
@@ -18,6 +18,8 @@
   import { pluralN, WORDS } from '$lib/core/utils/format';
   import { duePlan, daysUntil, type LessonState } from './progress';
   import { courseStats, extractLessonDebates, filterLessons, isDeepLesson, type LessonFilter } from './filter';
+  import { extractDocumentProjects } from './projects';
+  import { CROSS_THEMES } from './themes';
 
   let prog = $state<Record<string, LessonState>>({});
   let due = $state<LessonItem[]>([]);
@@ -40,6 +42,7 @@
 
   const stats = $derived(courseStats(kb.lessons, prog));
   const debatesCount = $derived(extractLessonDebates(kb.lessons).length);
+  const projectsCount = $derived(extractDocumentProjects(kb.lessons).length);
   const periodsWithLessons = $derived(kb.periods.filter((p) => kb.lessonsIn(p.id).length > 0));
   const scopeLessons = $derived.by(() => {
     const base = selectedPeriod ? kb.lessonsIn(selectedPeriod) : kb.lessons;
@@ -119,10 +122,29 @@
         {/each}
       </div>
 
-      <div class="quick-row">
+      <div class="quick-row hscroll">
         <Chip selected={deepOnly} onclick={() => (deepOnly = !deepOnly)}>
           <Sparkles size={13} /> Глубокие ({deepInScope})
         </Chip>
+        <a class="debates-link surface" href="#/course/themes">
+          <Route size={14} class="gold-ico" />
+          <span>Линии</span>
+          <small class="muted num">{CROSS_THEMES.length}</small>
+          <ArrowRight size={13} />
+        </a>
+        {#if projectsCount > 0}
+          <a class="debates-link surface" href="#/course/projects{selectedPeriod ? `?period=${selectedPeriod}` : ''}">
+            <ScrollText size={14} class="gold-ico" />
+            <span>Проекты</span>
+            <small class="muted num">{projectsCount}</small>
+            <ArrowRight size={13} />
+          </a>
+        {/if}
+        <a class="debates-link surface" href="#/maps">
+          <Compass size={14} class="gold-ico" />
+          <span>Карты</span>
+          <ArrowRight size={13} />
+        </a>
         {#if debatesCount > 0}
           <a class="debates-link surface" href="#/course/debates{selectedPeriod ? `?period=${selectedPeriod}` : ''}">
             <Scale size={14} class="gold-ico" />
@@ -208,7 +230,7 @@
   .big { font-size: var(--text-xl); }
   .small { font-size: var(--text-sm); }
   .controls { display: flex; flex-direction: column; gap: var(--sp-3); margin: var(--sp-2) 0 var(--sp-4); }
-  .quick-row { display: flex; align-items: center; justify-content: space-between; gap: var(--sp-2); }
+  .quick-row { display: flex; align-items: center; gap: var(--sp-2); }
   .debates-link {
     display: inline-flex;
     align-items: center;
@@ -220,8 +242,11 @@
     font-weight: 600;
     text-decoration: none;
     white-space: nowrap;
+    flex: none;
   }
   .debates-link :global(.gold-ico) { color: var(--gold); flex: none; }
+  .debates-link :global(.acc-ico) { color: var(--accent); flex: none; }
+  .debates-link :global(.map-ico) { color: var(--info, #2b4c7e); flex: none; }
   .group { margin-top: var(--sp-4); }
   .group-head {
     display: flex;

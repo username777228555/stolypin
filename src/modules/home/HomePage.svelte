@@ -1,6 +1,6 @@
 <script lang="ts">
   import { onMount } from 'svelte';
-  import { Search, Flame, Layers, Swords, UserSearch, Crosshair, ChartGantt, Network, Sparkles, BookOpen, ArrowRight, CalendarDays, Crown, CalendarCheck, Download, X, RotateCcw, Target, Feather } from '@lucide/svelte';
+  import { Search, Flame, Layers, Swords, UserSearch, Crosshair, ChartGantt, Network, Sparkles, BookOpen, ArrowRight, CalendarDays, Crown, CalendarCheck, Download, X, RotateCcw, Target, Feather, Compass } from '@lucide/svelte';
   import Emblem from '$lib/design/components/Emblem.svelte';
   import WinterHeroArt from '$lib/design/components/WinterHeroArt.svelte';
   import IconButton from '$lib/design/components/IconButton.svelte';
@@ -241,6 +241,7 @@
       <Tile icon={ChartGantt} title="Лента времени" description="Синхронная хронология" href="/timeline" tint="#56627a" />
       <Tile icon={Crown} title="При ком это было?" description="Событие → правитель" href="/games/reign" tint="#a87a28" />
       <Tile icon={CalendarCheck} title="Ключевые даты" description="Шпаргалка с самопроверкой" href="/dates" tint="#8e2430" />
+      <Tile icon={Compass} title="Слепые карты" description="58 карт: походы и битвы" href="/maps?mode=blind" tint="#2b4c7e" />
     </div>
   </section>
 

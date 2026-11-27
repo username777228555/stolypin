@@ -112,7 +112,11 @@
 </script>
 
 <div class="page">
-  <PageHeader title="Губернии 1856" eyebrow="Географические карточки империи" back="/explore" />
+  <PageHeader
+    title={mode === 'arms' ? 'Чей герб?' : mode === 'map' ? 'Чья карта?' : 'Губернии 1856'}
+    eyebrow="Географические карточки империи 1856"
+    back={asked ? '/practice' : '/explore'}
+  />
   <Segmented bind:value={mode} options={[{ value: 'look', label: 'Карточки', count: gubernii.length }, { value: 'arms', label: 'Чей герб?' }, { value: 'map', label: 'Чья карта?' }]} />
 
   <div class="hscroll chips">
